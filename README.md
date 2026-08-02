@@ -4,32 +4,59 @@ A high-performance **Kotlin / JVM Companion Project** matching all statistics, p
 
 ---
 
-## ⚡ Build, Test, and Run Commands
+## 🚀 How to Pull, Build, Test, & Run
 
-### 1. Build the Executable Fat JAR
-Compile Kotlin source code, run checks, and package a self-contained executable Fat JAR with all dependencies (`kotlin-stdlib`, `commons-math3`, `xchart`, `logback`, `slf4j`):
+### 1. Clone & Pull Repository
+```bash
+git clone git@github.com:brentmzey/product_tracker_kotlin.git
+cd product_tracker_kotlin
+git pull origin main
+```
+
+### 2. Prerequisites
+* **JDK**: Version 17 or higher (`java -version`)
+* **Gradle**: 8.0+ or wrapper included
+
+---
+
+### ⚡ Ultimate Production One-Liner (Build + Executable JAR)
+
+Run this single command to compile, package a self-contained Fat JAR with all dependencies, and execute:
 
 ```bash
+cd product_tracker_kotlin && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+```
+
+---
+
+### ⚡ Ultimate Development One-Liner (Compile + Run via Gradle)
+
+```bash
+cd product_tracker_kotlin && gradle run
+```
+
+---
+
+### 🛠️ Step-by-Step Build, Test, & Execution Commands
+
+#### **A. Build Executable Fat JAR**
+```bash
+# Packages executable JAR containing kotlin-stdlib, commons-math3, xchart, logback, slf4j
 gradle build
 ```
 
-### 2. Run Tests
-Execute unit and component integration test suites:
-
+#### **B. Run Unit & Integration Tests**
 ```bash
 gradle test
 ```
 
-### 3. Run the Application
-
-#### **Option A: Via Gradle (Development Mode)**
+#### **C. Run Application**
 ```bash
-gradle run
-```
-
-#### **Option B: Via Executable Fat JAR (Production Mode)**
-```bash
+# Option 1: Via Executable JAR (Production Mode)
 java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+
+# Option 2: Via Gradle (Dev Mode)
+gradle run
 ```
 
 ---
