@@ -4,7 +4,44 @@ A high-performance **Kotlin / JVM Companion Project** matching all statistics, p
 
 ---
 
-## 🛠️ Tech Stack
+## ⚡ Build, Test, and Run Commands
+
+### 1. Build the Executable Fat JAR
+Compile Kotlin source code, run checks, and package a self-contained executable Fat JAR with all dependencies (`kotlin-stdlib`, `commons-math3`, `xchart`, `logback`, `slf4j`):
+
+```bash
+gradle build
+```
+
+### 2. Run Tests
+Execute unit and component integration test suites:
+
+```bash
+gradle test
+```
+
+### 3. Run the Application
+
+#### **Option A: Via Gradle (Development Mode)**
+```bash
+gradle run
+```
+
+#### **Option B: Via Executable Fat JAR (Production Mode)**
+```bash
+java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+```
+
+---
+
+## 📚 Econometric Narrative & Documentation Guides
+
+* 📘 **[Causal Inference Identification Story](docs/causal_inference_narrative.md)**: Intuitive narrative on Pooled OLS attenuation bias, Fixed Effects within transformation, 2SLS IV causal identification, HC3 robust standard errors, and LPM asymptotic CLT convergence.
+* 📗 **[Econometric Methodology & Matrix Derivations](docs/econometric_methodology.md)**: Apache Commons Math 3 matrix formulations for OLS, FE, 2SLS IV, and CLT simulations.
+
+---
+
+## 🛠️ Tech Stack & Architecture
 
 * **Language**: Kotlin 1.9 (JVM 17 Target)
 * **Concurrency**: `kotlinx-coroutines-core`
@@ -29,19 +66,10 @@ A high-performance **Kotlin / JVM Companion Project** matching all statistics, p
 
 ---
 
-## 🚀 Quickstart Command
+## 📁 Output Artifacts & Local Plot Locations
 
-To compile and run the Kotlin pipeline:
-
-```bash
-gradle run
-```
-
----
-
-## 📁 Output Artifacts
-
-* **Console Logs**: Structured SLF4J/Logback logs + formatted ASCII tables.
-* **Local Plots**: Saved in [`./plots/`](file:///Users/brentzey/personal/product_tracker_kotlin/plots).
-* **Markdown Report**: Generated at [`kotlin_econometric_analysis_report.md`](file:///Users/brentzey/.gemini/antigravity-cli/brain/a338ff18-e568-4e65-9bfe-357659147d55/kotlin_econometric_analysis_report.md).
-# product_tracker_kotlin
+* **Console Output**: Structured SLF4J/Logback logs + formatted ASCII tables.
+* **Local Chart Exports**: Saved in [`./plots/`](file:///Users/brentzey/personal/product_tracker_kotlin/plots):
+  * `model_elasticity_comparison_kotlin.png`
+  * `price_quantity_scatter_kotlin.png`
+* **Generated Report**: [`kotlin_econometric_analysis_report.md`](file:///Users/brentzey/.gemini/antigravity-cli/brain/a338ff18-e568-4e65-9bfe-357659147d55/kotlin_econometric_analysis_report.md).
