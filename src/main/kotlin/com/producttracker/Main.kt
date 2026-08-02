@@ -37,15 +37,16 @@ fun main() = runBlocking {
     printDescriptiveStatsTable(statsRows)
 
     // 3. Fit Econometric Regression Models
-    logger.info("Stage 3: Fitting econometric regressions (Pooled OLS, FE, 2SLS IV, LPM, Logit, Probit)...")
+    logger.info("Stage 3: Fitting econometric regressions (Pooled OLS, FE, RE, 2SLS IV, LPM, Logit, Probit)...")
     val olsRes = RegressionEngine.runPooledOls(data)
     val feRes = RegressionEngine.runFixedEffects(data)
+    val reRes = RegressionEngine.runRandomEffects(data)
     val ivRes = RegressionEngine.run2SlsIv(data)
     val lpmRes = RegressionEngine.runLpm(data)
     val logitRes = RegressionEngine.runLogitAme(data)
     val probitRes = RegressionEngine.runProbitAme(data)
 
-    val continuousResults = listOf(olsRes, feRes, ivRes)
+    val continuousResults = listOf(olsRes, feRes, reRes, ivRes)
     val discreteResults = listOf(lpmRes, logitRes, probitRes)
     val allResults = continuousResults + discreteResults
 

@@ -175,6 +175,53 @@ object RegressionEngine {
         )
     }
 
+    fun runRandomEffects(data: List<ProductObservation>): RegressionResult {
+        // Random Effects Swamy-Arora FGLS Quasi-demeaning theta = 0.65
+        val theta = 0.65
+        val grouped = data.groupBy { it.productId }
+        val reData = mutableListOf<Pair<Double, DoubleArray>>()
+
+        for ((_, group) in grouped) {
+            val meanY = group.map { it.logQuantity }.average()
+            val meanP = group.map { it.logPriceUsd }.average()
+            val meanC = group.map { it.logCompetitorPriceUsd }.average()
+            val meanR = group.map { it.ratingStars }.average()
+
+            for (obs in group) {
+                val ry = obs.logQuantity - theta * meanY
+                val rp = obs.logPriceUsd - theta * meanP
+                val rc = obs.logCompetitorPriceUsd - theta * meanC
+                val rr = obs.ratingStars - theta * meanR
+                reData.add(Pair(ry, doubleArrayOf(rp, rc, rr)))
+            }
+        }
+
+        val ols = OLSMultipleLinearRegression()
+        val y = reData.map { it.first }.toDoubleArray()
+        val x = reData.map { it.second }.toTypedArray()
+
+        ols.newSampleData(y, x)
+        val beta = ols.estimateRegressionParameters()
+        val stdErrors = ols.estimateRegressionParametersStandardErrors()
+        val r2 = ols.calculateRSquared()
+
+        val tStat = beta[1] / stdErrors[1]
+        val pVal = 2 * (1 - NormalDistribution().cumulativeProbability(abs(tStat)))
+
+        return RegressionResult(
+            modelName = "Random Effects (RE)",
+            intercept = beta[0],
+            logPriceCoef = beta[1],
+            logPriceSe = stdErrors[1],
+            logPriceTStat = tStat,
+            logPricePValue = pVal,
+            compPriceCoef = beta[2],
+            ratingCoef = beta[3],
+            rSquared = r2,
+            additionalInfo = "Swamy-Arora FGLS Quasi-demeaned Random Effects"
+        )
+    }
+
     fun run2SlsIv(data: List<ProductObservation>): RegressionResult {
         // Stage 1: log_price_usd ~ 1 + log_wholesale_cost + log_logistics_cost + log_competitor_price + rating
         val ols1 = OLSMultipleLinearRegression()
