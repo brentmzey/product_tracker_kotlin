@@ -48,13 +48,14 @@ cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gr
 
 ## 🎨 High-Resolution Visual Chart Suite (XChart Renders)
 
-All 5 high-resolution 300 DPI plots are automatically exported to [`./plots/`](file:///Users/brentzey/personal/product_tracker_kotlin/plots):
+All 6 high-resolution 300 DPI plots are automatically exported to [`./plots/`](file:///Users/brentzey/personal/product_tracker_kotlin/plots):
 
 1. `model_elasticity_comparison_kotlin.png`: Point estimates & 95% confidence intervals across Pooled OLS, FE, RE, and 2SLS IV.
 2. `binary_choice_lpm_vs_logit_probit_convergence_kotlin.png`: Probability response curves (LPM vs Logit Sigmoid vs Probit CDF).
 3. `panel_variance_decomposition_kotlin.png`: Log Price vs Log Quantity panel scatter with product entity groupings.
 4. `roc_curve_lpm_logit_probit_kotlin.png`: Receiver Operating Characteristic (ROC) curves & AUC classification comparison.
 5. `first_stage_and_residuals_kotlin.png`: First-stage IV regression scatter ($Z_1 \to \ln P$) and cost shifter relevance.
+6. `multistage_regression_trendlines_kotlin.png`: **Multi-Stage Econometric Trendlines & Error Mapping** comparing Pooled OLS ($\eta = -1.033$), Fixed Effects ($\eta = -1.461$), and 2SLS IV ($\eta = -1.352$).
 
 ---
 

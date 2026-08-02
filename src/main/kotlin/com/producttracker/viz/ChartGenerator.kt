@@ -128,6 +128,29 @@ object ChartGenerator {
 
         saveChart(chart5, "first_stage_and_residuals_kotlin.png", dir, localPlotDir, generatedFiles)
 
+        // -------------------------------------------------------------
+        // Chart 6: Multi-Stage Regression Trendlines & Error Mapping
+        // -------------------------------------------------------------
+        val chart6 = buildStyledChart(
+            "Multi-Stage Econometric Trendlines & Error Mapping (Kotlin / JVM)",
+            "Log Price ($ USD)",
+            "Log Quantity / Demand Probability"
+        )
+
+        val seriesOlsLine = chart6.addSeries("Pooled OLS Trendline (η = -1.033, Attenuated)", pRange, pRange.map { p -> 4.0446 - 1.0333 * p + 0.0129 * 3.99 + 0.8458 * 4.05 }.toDoubleArray())
+        seriesOlsLine.lineColor = Color(243, 139, 168)
+        seriesOlsLine.marker = org.knowm.xchart.style.markers.None()
+
+        val seriesFeLine = chart6.addSeries("Fixed Effects Trendline (η = -1.461, Within)", pRange, pRange.map { p -> 5.5 - 1.4606 * p + 0.5659 * 3.99 }.toDoubleArray())
+        seriesFeLine.lineColor = Color(250, 179, 135)
+        seriesFeLine.marker = org.knowm.xchart.style.markers.None()
+
+        val seriesIvLine = chart6.addSeries("2SLS IV Causal Line (η = -1.352, Exogenous Z)", pRange, pRange.map { p -> 5.1339 - 1.3519 * p + 0.1772 * 3.99 + 0.8758 * 4.05 }.toDoubleArray())
+        seriesIvLine.lineColor = Color(166, 227, 161)
+        seriesIvLine.marker = org.knowm.xchart.style.markers.None()
+
+        saveChart(chart6, "multistage_regression_trendlines_kotlin.png", dir, localPlotDir, generatedFiles)
+
         return generatedFiles
     }
 
