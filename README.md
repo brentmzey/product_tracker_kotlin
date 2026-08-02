@@ -15,12 +15,12 @@ A high-performance **Kotlin / JVM Companion Project** matching all statistics, p
 Run this single command to pull the latest code, build an executable Fat JAR with all dependencies, and run:
 
 ```bash
-cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+git pull origin main && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
 ```
 
 ### **Development Mode (Gradle)**
 ```bash
-cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gradle run
+git pull origin main && gradle run
 ```
 
 ---
@@ -48,7 +48,7 @@ cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gr
 
 ## 🎨 High-Resolution Visual Chart Suite (XChart Renders)
 
-All 6 high-resolution 300 DPI plots are automatically exported to [`./plots/`](file:///Users/brentzey/personal/product_tracker_kotlin/plots):
+All 6 high-resolution 300 DPI plots are automatically exported to [`./plots/`](./plots):
 
 1. `model_elasticity_comparison_kotlin.png`: Point estimates & 95% confidence intervals across Pooled OLS, FE, RE, and 2SLS IV.
 2. `binary_choice_lpm_vs_logit_probit_convergence_kotlin.png`: Probability response curves (LPM vs Logit Sigmoid vs Probit CDF).
@@ -113,5 +113,5 @@ gradle run
 ## ⚡ Ultimate Chained One-Liners (Pull + Build + Run)
 
 ```bash
-cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+git pull origin main && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
 ```

@@ -62,7 +62,8 @@ fun main() = runBlocking {
     printCltSimulationTable(cltSim)
 
     // 5. Generate Visual Charts
-    val outputDir = "/Users/brentzey/.gemini/antigravity-cli/brain/a338ff18-e568-4e65-9bfe-357659147d55"
+    val outputDir = System.getenv("ARTIFACT_DIR") ?: "./output_reports"
+    File(outputDir).mkdirs()
     logger.info("Stage 5: Rendering 300 DPI high-resolution XChart graphs in '$outputDir'...")
     val chartPaths = ChartGenerator.generateCharts(data, allResults, cltSim, outputDir)
     chartPaths.forEach { logger.info(" [SUCCESS] Created chart figure: $it") }
