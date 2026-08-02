@@ -1,0 +1,8 @@
+.gradle/
+build/
+.idea/
+*.iml
+.DS_Store
+*.log
+price_history.csv
+econometric_panel_data.csv
