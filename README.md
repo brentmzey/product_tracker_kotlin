@@ -61,6 +61,7 @@ All 6 high-resolution 300 DPI plots are automatically exported to [`./plots/`](f
 
 ## 📚 Econometric Narrative & Documentation Guides
 
+* 🏛️ **[Modular Archetype Architecture & Roadmap](docs/archetype_architecture_roadmap.md)**: Blueprint for converting the app into a drag-and-drop research archetype (Panel, Cross-Section, Time-Series Macro, Causal ML).
 * 📘 **[Causal Inference Identification Story](docs/causal_inference_narrative.md)**: Intuitive narrative on Pooled OLS attenuation bias, Fixed Effects within transformation, 2SLS IV causal identification, HC3 robust standard errors, and LPM asymptotic CLT convergence.
 * 📗 **[Econometric Methodology & Matrix Derivations](docs/econometric_methodology.md)**: Apache Commons Math 3 matrix formulations for OLS, FE, 2SLS IV, and CLT simulations.
 
