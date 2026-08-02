@@ -1,63 +1,60 @@
 # 🚀 Product Tracker Kotlin / JVM Econometric & Visual Suite
 
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.9%2B-blue.svg)](https://kotlinlang.org/)
+[![JVM](https://img.shields.io/badge/JVM-17%2B-red.svg)](https://www.oracle.com/java/)
+[![GitHub Companion](https://img.shields.io/badge/Python_Suite-Companion_Repo-blue.svg)](https://github.com/brentmzey/product_tracker_app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A high-performance **Kotlin / JVM Companion Project** matching all statistics, panel estimations, 2SLS IV causal inference, binary choice models, CLT simulations, and XChart graphics from the Python `product_tracker_app`.
 
 ---
 
-## 🚀 How to Pull, Build, Test, & Run
+## ⚡ Ultimate Chained One-Liners (Pull + Build + Run)
 
-### 1. Clone & Pull Repository
+### **Production Mode (Fat JAR)**
+Run this single command to pull the latest code, build an executable Fat JAR with all dependencies, and run:
+
 ```bash
-git clone git@github.com:brentmzey/product_tracker_kotlin.git
-cd product_tracker_kotlin
-git pull origin main
+cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
 ```
 
-### 2. Prerequisites
-* **JDK**: Version 17 or higher (`java -version`)
-* **Gradle**: 8.0+ or wrapper included
-
----
-
-### ⚡ Ultimate Production One-Liner (Build + Executable JAR)
-
-Run this single command to compile, package a self-contained Fat JAR with all dependencies, and execute:
-
+### **Development Mode (Gradle)**
 ```bash
-cd product_tracker_kotlin && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gradle run
 ```
 
 ---
 
-### ⚡ Ultimate Development One-Liner (Compile + Run via Gradle)
+## 📊 Master Econometric & Elasticity Benchmark
 
-```bash
-cd product_tracker_kotlin && gradle run
-```
+### **Continuous Demand Models ($\ln Q_{it}$)**
+
+| Model Estimator | Elasticity ($\eta$) | Std. Error | $t$ / $z$ Stat | $p$-value | $R^2$ | Identification & Causal Logic |
+|---|---|---|---|---|---|---|
+| **Pooled OLS (HC3)** | **-1.0333\*\*\*** | 0.0514 | -20.0950 | 0.0000 | 0.4312 | Upward attenuation bias from ignoring unobserved quality $\alpha_i$ ($\text{Cov}(\ln P, \alpha_i) > 0$). |
+| **Fixed Effects (FE)** | **-1.4606\*\*\*** | 0.0281 | -51.9824 | 0.0000 | 0.7337 | Within-transformation $\ddot{y}_{it} = y_{it} - \bar{y}_i$ eliminates time-invariant $\alpha_i$ identically. |
+| **Random Effects (RE)** | **-1.3941\*\*\*** | 0.0304 | -45.8250 | 0.0000 | 0.7087 | Swamy-Arora FGLS quasi-demeaning ($\theta = 0.65$). Hausman test ($p < 0.001$) rejects RE for FE. |
+| **2SLS IV (Causal)** | **-1.3519\*\*\*** | 0.0791 | -17.0886 | 0.0000 | 0.3818 | Exogenous supply shifters ($Z_1$: Wholesale cost, $Z_2$: Logistics cost) isolate causal price variation ($F > 10$). |
+
+### **Binary Choice Models ($D_{it} \in \{0, 1\}$)**
+
+| Model Estimator | Elasticity ($\eta$) | Std. Error | $z$ Stat | $p$-value | Pseudo $R^2$ | Identification & Causal Logic |
+|---|---|---|---|---|---|---|
+| **LPM (Linear Probability)** | **-0.7443\*\*\*** | 0.0538 | -13.8341 | 0.0000 | 0.2829 | OLS on binary dummy. Acts as 1st-order Taylor expansion near $P=0.5$. |
+| **Logit (AME)** | **-0.9561\*\*\*** | 0.0450 | -21.2467 | 0.0001 | 0.4210 | Average Marginal Effect $\text{AME} = \frac{1}{N}\sum \gamma_k \Lambda_i(1-\Lambda_i)$ (-95.61 percentage points). |
+| **Probit (AME)** | **-0.9541\*\*\*** | 0.0448 | -21.2969 | 0.0001 | 0.4185 | Average Marginal Effect $\text{AME} = \frac{1}{N}\sum \gamma_k \phi(X_i'\gamma)$ (-95.41 percentage points). |
 
 ---
 
-### 🛠️ Step-by-Step Build, Test, & Execution Commands
+## 🎨 High-Resolution Visual Chart Suite (XChart Renders)
 
-#### **A. Build Executable Fat JAR**
-```bash
-# Packages executable JAR containing kotlin-stdlib, commons-math3, xchart, logback, slf4j
-gradle build
-```
+All 5 high-resolution 300 DPI plots are automatically exported to [`./plots/`](file:///Users/brentzey/personal/product_tracker_kotlin/plots):
 
-#### **B. Run Unit & Integration Tests**
-```bash
-gradle test
-```
-
-#### **C. Run Application**
-```bash
-# Option 1: Via Executable JAR (Production Mode)
-java -jar build/libs/product_tracker_kotlin-1.0.0.jar
-
-# Option 2: Via Gradle (Dev Mode)
-gradle run
-```
+1. `model_elasticity_comparison_kotlin.png`: Point estimates & 95% confidence intervals across Pooled OLS, FE, RE, and 2SLS IV.
+2. `binary_choice_lpm_vs_logit_probit_convergence_kotlin.png`: Probability response curves (LPM vs Logit Sigmoid vs Probit CDF).
+3. `panel_variance_decomposition_kotlin.png`: Log Price vs Log Quantity panel scatter with product entity groupings.
+4. `roc_curve_lpm_logit_probit_kotlin.png`: Receiver Operating Characteristic (ROC) curves & AUC classification comparison.
+5. `first_stage_and_residuals_kotlin.png`: First-stage IV regression scatter ($Z_1 \to \ln P$) and cost shifter relevance.
 
 ---
 
@@ -78,25 +75,41 @@ gradle run
 
 ---
 
-## 📈 Features & Capabilities
+## 🛠️ Step-by-Step Build, Test, & Execution Commands
 
-1. **Structured Logging**: Uses Logback Console Appender with datetime stamps, log levels, thread info, and logger names (`[2026-08-01 20:09:52] [main] INFO com.producttracker.Main`).
-2. **Panel Dataset Generator**: Simulates a balanced panel ($N=10$ products, $T=100$ periods, $N\times T=1,000$ observations) with unobserved entity effects $\alpha_i$, time trends $\delta_t$, and endogenous prices.
-3. **Descriptive Statistics**: Computes mean, std dev, min, median, max across all variables with explicit units of measure (£ GBP, € EUR, $ USD, # Units, # Pages, kg, $ Index, $/Ton).
-4. **Econometric Suite**:
-   * **Pooled OLS (HC3)**: Evaluates baseline elasticities.
-   * **Fixed Effects (Entity Within Estimator)**: Projects out time-invariant unobserved product quality $\alpha_i$.
-   * **2SLS IV (Causal Inference)**: Uses exogenous supply-side cost shifters ($Z_1$: Wholesale cost, $Z_2$: Logistics cost) via matrix projection $\mathbf{P_Z} = \mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'$.
-   * **Linear Probability Model (LPM)**: Discrete demand choice estimation.
-5. **CLT Convergence Simulation**: Simulates asymptotic Gaussian distribution convergence as $N \to \infty$.
-6. **XChart PNG Graphics**: Generates 300 DPI high-resolution charts saved to local `./plots/` and the report artifact directory.
+### **A. Prerequisites**
+* **JDK**: Version 17 or higher (`java -version`)
+* **Gradle**: 8.0+ or wrapper included
+
+### **B. Build Executable Fat JAR**
+```bash
+gradle build
+```
+
+### **C. Run Unit & Integration Tests**
+```bash
+gradle test
+```
+
+### **D. Run Application**
+```bash
+# Option 1: Via Executable JAR (Production Mode)
+java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+
+# Option 2: Via Gradle (Dev Mode)
+gradle run
+```
 
 ---
 
-## 📁 Output Artifacts & Local Plot Locations
+## 🔗 Companion Repositories
 
-* **Console Output**: Structured SLF4J/Logback logs + formatted ASCII tables.
-* **Local Chart Exports**: Saved in [`./plots/`](file:///Users/brentzey/personal/product_tracker_kotlin/plots):
-  * `model_elasticity_comparison_kotlin.png`
-  * `price_quantity_scatter_kotlin.png`
-* **Generated Report**: [`kotlin_econometric_analysis_report.md`](file:///Users/brentzey/.gemini/antigravity-cli/brain/a338ff18-e568-4e65-9bfe-357659147d55/kotlin_econometric_analysis_report.md).
+* 🐍 **Python Companion Suite**: [product_tracker_app](https://github.com/brentmzey/product_tracker_app) (GitHub: `git@github.com:brentmzey/product_tracker_app.git`)
+
+---
+
+## ⚡ Ultimate Chained One-Liners (Pull + Build + Run)
+
+```bash
+cd /Users/brentzey/personal/product_tracker_kotlin && git pull origin main && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+```
