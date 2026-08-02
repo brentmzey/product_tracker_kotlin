@@ -18,22 +18,40 @@ This report summarizes the **Kotlin/JVM Implementation** of the product tracker 
 | Wholesale Cost Index | $ USD Index | 39.6567 | 8.8416 | 22.7736 | 38.4725 | 79.7447 |
 | Logistics Shipping Index | $ USD / Ton-Shipment | 20.0645 | 4.1794 | 7.2551 | 20.1058 | 31.4087 |
 
-## 3. Master Demand Elasticity Benchmark
+## 3. Master Demand Elasticity Benchmark (Continuous Demand)
 
-| Model | Log Price Coef (η) | Std. Error | t / z Stat | p-value | R-Squared |
+| Variable | Unit | Pooled OLS (HC3) | Fixed Effects (FE) | Random Effects (RE) | 2SLS IV (Causal) |
 |---|---|---|---|---|---|
-| Pooled OLS (HC3) | -1.0333*** | 0.0514 | -20.0950 | 0.0000 | 0.4312 |
-| Fixed Effects (FE) | -1.4606*** | 0.0281 | -51.9824 | 0.0000 | 0.7337 |
-| Random Effects (RE) | -1.3941*** | 0.0304 | -45.8250 | 0.0000 | 0.7087 |
-| 2SLS IV (Causal) | -1.3519*** | 0.0791 | -17.0886 | 0.0000 | 0.3818 |
-| LPM (Linear Probability) | -0.7443*** | 0.0538 | -13.8341 | 0.0000 | 0.2829 |
-| Logit (AME) | -0.9561*** | 0.0450 | -21.2467 | 0.0001 | 0.4210 |
-| Probit (AME) | -0.9541*** | 0.0448 | -21.2969 | 0.0001 | 0.4185 |
+| Intercept | - | 2.4540 | - | 1.7617 | 3.6598 |
+| log(Price [USD]) | $ USD | -1.0333*** | -1.4606*** | -1.3941*** | -1.3519*** |
+| log(CompetitorPrice) | $ USD | 0.1185*** | 0.5877*** | 0.4978*** | 0.2765*** |
+| Rating (Stars) | Stars (1-5) | 0.9745*** | - | 0.5137*** | 1.0089*** |
 
-## 4. Visual Diagnostics (XChart / JVM Renders)
+## 4. Binary Choice Model Benchmark (LPM vs Logit vs Probit)
+
+| Variable | Unit | LPM (OLS) | Logit (AME) | Probit (AME) |
+|---|---|---|---|---|
+| Intercept | - | 1.3054 | 19.2482 | 11.2666 |
+| log(Price [USD]) | $ USD | -0.7443*** | -0.9561*** (AME) | -0.9541*** (AME) |
+| log(CompetitorPrice) | $ USD | 0.1742*** | 0.0909*** (AME) | 0.0895*** (AME) |
+| Rating (Stars) | Stars (1-5) | 0.7729*** | 0.6129*** (AME) | 0.6121*** (AME) |
+
+## 5. Visual Diagnostics (XChart / JVM Renders)
 
 ### Figure 1: Model Elasticity Comparison
 ![Elasticity Comparison](file:///Users/brentzey/personal/product_tracker_kotlin/./output_reports/model_elasticity_comparison_kotlin.png)
 
-### Figure 2: Price vs Quantity Demanded Scatter
-![Price Quantity Scatter](file:///Users/brentzey/personal/product_tracker_kotlin/./output_reports/binary_choice_lpm_vs_logit_probit_convergence_kotlin.png)
+### Figure 2: Binary Choice Response Curves
+![Binary Choice Curves](file:///Users/brentzey/personal/product_tracker_kotlin/./output_reports/binary_choice_lpm_vs_logit_probit_convergence_kotlin.png)
+
+### Figure 3: Panel Variance Scatter
+![Panel Variance Scatter](file:///Users/brentzey/personal/product_tracker_kotlin/./output_reports/panel_variance_decomposition_kotlin.png)
+
+### Figure 4: ROC Curves
+![ROC Curves](file:///Users/brentzey/personal/product_tracker_kotlin/./output_reports/roc_curve_lpm_logit_probit_kotlin.png)
+
+### Figure 5: First Stage IV Relevance & Residuals
+![First Stage & Residuals](file:///Users/brentzey/personal/product_tracker_kotlin/./output_reports/first_stage_and_residuals_kotlin.png)
+
+### Figure 6: Multi-Stage Regression Trendlines
+![Multi-Stage Trendlines](file:///Users/brentzey/personal/product_tracker_kotlin/./output_reports/multistage_regression_trendlines_kotlin.png)
