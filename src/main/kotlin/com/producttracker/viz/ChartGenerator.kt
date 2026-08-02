@@ -47,8 +47,13 @@ object ChartGenerator {
         series1.lineColor = Color(166, 227, 161)
         series1.markerColor = Color(137, 220, 235)
 
+        val localPlotDir = File("./plots")
+        if (!localPlotDir.exists()) localPlotDir.mkdirs()
+
         val file1 = File(dir, "model_elasticity_comparison_kotlin.png")
         BitmapEncoder.saveBitmap(chart1, file1.absolutePath, BitmapEncoder.BitmapFormat.PNG)
+        val localFile1 = File(localPlotDir, "model_elasticity_comparison_kotlin.png")
+        BitmapEncoder.saveBitmap(chart1, localFile1.absolutePath, BitmapEncoder.BitmapFormat.PNG)
         generatedFiles.add(file1.absolutePath)
 
         // 2. Scatter Plot: Price vs Quantity Demanded
@@ -74,6 +79,8 @@ object ChartGenerator {
 
         val file2 = File(dir, "price_quantity_scatter_kotlin.png")
         BitmapEncoder.saveBitmap(chart2, file2.absolutePath, BitmapEncoder.BitmapFormat.PNG)
+        val localFile2 = File(localPlotDir, "price_quantity_scatter_kotlin.png")
+        BitmapEncoder.saveBitmap(chart2, localFile2.absolutePath, BitmapEncoder.BitmapFormat.PNG)
         generatedFiles.add(file2.absolutePath)
 
         return generatedFiles

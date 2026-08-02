@@ -4,8 +4,11 @@ import com.producttracker.econometrics.DescriptiveStatsCalculator
 import com.producttracker.econometrics.RegressionEngine
 import com.producttracker.viz.ChartGenerator
 import kotlinx.coroutines.runBlocking
+import org.slf4j.LoggerFactory
 import java.io.File
 import kotlin.math.sqrt
+
+private val logger = LoggerFactory.getLogger("com.producttracker.Main")
 
 fun main() = runBlocking {
     println("==========================================================================")
@@ -13,12 +16,12 @@ fun main() = runBlocking {
     println("==========================================================================")
 
     // 1. Generate Panel Dataset
-    println("\n[INFO] Generating Panel Dataset (N=10 products, T=100 periods = 1,000 observations)...")
+    logger.info("Stage 1: Generating Panel Dataset (N=10 products, T=100 periods = 1,000 observations)...")
     val data = RegressionEngine.generatePanelData(nProducts = 10, nPeriods = 100)
-    println("[SUCCESS] Created dataset with ${data.size} panel observations.")
+    logger.info("Stage 1 complete: Created dataset with ${data.size} panel observations.")
 
     // 2. Compute Descriptive Statistics with Units of Measure
-    println("\n=== DESCRIPTIVE STATISTICS (WITH UNITS OF MEASURE) ===")
+    logger.info("Stage 2: Computing descriptive statistics with units of measure...")
     val statsRows = DescriptiveStatsCalculator.computeDescriptiveStats(data)
 
     val format = "%-25s | %-40s | %10s | %10s | %10s | %10s | %10s"
@@ -40,7 +43,7 @@ fun main() = runBlocking {
     }
 
     // 3. Fit Econometric Regression Models
-    println("\n[INFO] Fitting Econometric Regressions (Pooled OLS, FE, 2SLS IV, LPM)...")
+    logger.info("Stage 3: Fitting Econometric Regressions (Pooled OLS, FE, 2SLS IV, LPM)...")
     val olsRes = RegressionEngine.runPooledOls(data)
     val feRes = RegressionEngine.runFixedEffects(data)
     val ivRes = RegressionEngine.run2SlsIv(data)
@@ -73,7 +76,7 @@ fun main() = runBlocking {
     println(" 4. LPM Asymptotic CLT Convergence: By Lindeberg-Levy CLT & Slutsky's Theorem, sqrt(N)(beta_LPM - beta_AME) -> N(0, Omega_robust).")
 
     // 4. CLT Convergence Simulation
-    println("\n[INFO] Simulating Central Limit Theorem (CLT) Convergence for LPM (N=50, 500, 5000)...")
+    logger.info("Stage 4: Simulating Central Limit Theorem (CLT) Convergence for LPM (N=50, 500, 5000)...")
     val cltSim = RegressionEngine.simulateCltConvergence()
     for ((n, ests) in cltSim) {
         val meanEst = ests.average()
@@ -83,7 +86,7 @@ fun main() = runBlocking {
 
     // 5. Generate Visual Charts
     val outputDir = "/Users/brentzey/.gemini/antigravity-cli/brain/a338ff18-e568-4e65-9bfe-357659147d55"
-    println("\n[INFO] Rendering 300 DPI high-resolution XChart graphs in '$outputDir'...")
+    logger.info("Stage 5: Rendering 300 DPI high-resolution XChart graphs in '$outputDir'...")
     val chartPaths = ChartGenerator.generateCharts(data, allResults, cltSim, outputDir)
     chartPaths.forEach { println(" [SUCCESS] Created chart: $it") }
 

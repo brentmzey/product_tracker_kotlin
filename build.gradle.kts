@@ -15,6 +15,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     implementation("org.apache.commons:commons-math3:3.6.1")
     implementation("org.knowm.xchart:xchart:3.8.7")
+    implementation("org.slf4j:slf4j-api:2.0.12")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
 }
 
 application {
