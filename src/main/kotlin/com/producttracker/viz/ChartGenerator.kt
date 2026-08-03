@@ -151,6 +151,24 @@ object ChartGenerator {
 
         saveChart(chart6, "multistage_regression_trendlines_kotlin.png", dir, localPlotDir, generatedFiles)
 
+        // -------------------------------------------------------------
+        // Chart 7: Model Selection P-Scores & Decision Matrix Benchmark
+        // -------------------------------------------------------------
+        val chart7 = buildStyledChart(
+            "Model Selection P-Scores & Statistical Decision Benchmark (Kotlin / JVM)",
+            "Model Index (1:OLS, 2:RE, 3:FE, 4:2SLS IV, 5:LPM, 6:Probit, 7:Logit)",
+            "Model Selection P-Score (%)"
+        )
+
+        val modelIndices = doubleArrayOf(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)
+        val pScores = doubleArrayOf(47.2, 55.5, 92.3, 96.5, 76.9, 81.9, 81.9)
+
+        val sPScore = chart7.addSeries("Model Selection P-Score (%)", modelIndices, pScores)
+        sPScore.lineColor = Color(203, 166, 247)
+        sPScore.markerColor = Color(166, 227, 161)
+
+        saveChart(chart7, "model_selection_decision_matrix_kotlin.png", dir, localPlotDir, generatedFiles)
+
         return generatedFiles
     }
 

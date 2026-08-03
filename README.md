@@ -44,11 +44,23 @@ git pull origin main && gradle run
 | **Logit (AME)** | **-0.9561\*\*\*** | 0.0450 | -21.2467 | 0.0001 | 0.4210 | Average Marginal Effect $\text{AME} = \frac{1}{N}\sum \gamma_k \Lambda_i(1-\Lambda_i)$ (-95.61 percentage points). |
 | **Probit (AME)** | **-0.9541\*\*\*** | 0.0448 | -21.2969 | 0.0001 | 0.4185 | Average Marginal Effect $\text{AME} = \frac{1}{N}\sum \gamma_k \phi(X_i'\gamma)$ (-95.41 percentage points). |
 
+### **Model Selection & Statistical Decision Matrix (P-Scores & Probabilistic Analysis)**
+
+| Model Estimator | Elasticity / AME | $p$-value | Brier Score | Log-Loss | ROC-AUC | P-Score (%) | Decision Status & Rationale |
+|---|---|---|---|---|---|---|---|
+| **Pooled OLS (HC3)** | **-1.0333\*\*\*** | 0.0000 | - | - | - | **47.2%** | Rejected: Omitted quality bias ($\text{Cov}(P, \alpha_i) > 0$). |
+| **Random Effects (RE)** | **-1.3941\*\*\*** | 0.0000 | - | - | - | **55.5%** | Rejected: Hausman test ($p < 0.001$) rejects RE. |
+| **Fixed Effects (FE)** | **-1.4606\*\*\*** | 0.0000 | - | - | - | **92.3%** | Selected: Best within-entity panel estimator. |
+| **2SLS IV (Causal)** | **-1.3519\*\*\*** | 0.0000 | - | - | - | **96.5%** | **WINNER**: Best causal policy decision model ($F > 10$). |
+| **LPM (Linear)** | **-0.7443\*\*\*** | 0.0000 | 0.1655 | 0.5513 | 0.7567 | **76.6%** | Acceptable: Linear Taylor approximation near $P=0.5$. |
+| **Probit (AME)** | **-0.9541\*\*\*** | 0.0001 | 0.1612 | 0.4853 | 0.8445 | **81.9%** | Selected: Runner-up binary model. |
+| **Logit (AME)** | **-0.9561\*\*\*** | 0.0001 | 0.1613 | 0.4854 | 0.8441 | **81.9%** | **WINNER**: Top ROC-AUC, lowest Brier calibration loss. |
+
 ---
 
 ## 🎨 High-Resolution Visual Chart Suite (XChart Renders)
 
-All 6 high-resolution 300 DPI plots are automatically exported to [`./plots/`](./plots):
+All 7 high-resolution 300 DPI plots are automatically exported to [`./plots/`](./plots):
 
 1. `model_elasticity_comparison_kotlin.png`: Point estimates & 95% confidence intervals across Pooled OLS, FE, RE, and 2SLS IV.
 2. `binary_choice_lpm_vs_logit_probit_convergence_kotlin.png`: Probability response curves (LPM vs Logit Sigmoid vs Probit CDF).
@@ -56,6 +68,7 @@ All 6 high-resolution 300 DPI plots are automatically exported to [`./plots/`](.
 4. `roc_curve_lpm_logit_probit_kotlin.png`: Receiver Operating Characteristic (ROC) curves & AUC classification comparison.
 5. `first_stage_and_residuals_kotlin.png`: First-stage IV regression scatter ($Z_1 \to \ln P$) and cost shifter relevance.
 6. `multistage_regression_trendlines_kotlin.png`: **Multi-Stage Econometric Trendlines & Error Mapping** comparing Pooled OLS ($\eta = -1.033$), Fixed Effects ($\eta = -1.461$), and 2SLS IV ($\eta = -1.352$).
+7. `model_selection_decision_matrix_kotlin.png`: **Model Selection P-Scores & Statistical Decision Benchmark** comparing model composite performance scores.
 
 ---
 

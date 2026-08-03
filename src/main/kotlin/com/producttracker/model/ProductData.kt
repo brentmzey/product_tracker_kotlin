@@ -46,3 +46,37 @@ data class RegressionResult(
     val rSquared: Double,
     val additionalInfo: String = ""
 )
+
+data class ProbabilisticMetrics(
+    val brierScore: Double,
+    val logLoss: Double,
+    val rocAuc: Double,
+    val boundaryViolationRate: Double
+)
+
+data class ModelDecisionRow(
+    val modelName: String,
+    val coefOrAme: Double,
+    val pValue: Double,
+    val rSquaredOrPseudo: Double,
+    val pScorePercent: Double,
+    val brierScore: Double? = null,
+    val logLoss: Double? = null,
+    val rocAuc: Double? = null,
+    val boundaryViolationRate: Double? = null,
+    val decisionStatus: String,
+    val rationale: String
+)
+
+data class MasterDecisionMatrixResult(
+    val hausmanStat: Double,
+    val hausmanPValue: Double,
+    val stage1FStat: Double,
+    val sarganPValue: Double,
+    val continuousModels: List<ModelDecisionRow>,
+    val binaryModels: List<ModelDecisionRow>,
+    val bestContinuousCausal: String,
+    val bestContinuousPanel: String,
+    val bestBinaryModel: String
+)
+
