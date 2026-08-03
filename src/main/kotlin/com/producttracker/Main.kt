@@ -6,6 +6,7 @@ import com.producttracker.model.DescriptiveStatRow
 import com.producttracker.viz.ChartGenerator
 import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.rendering.AnsiLevel
+import com.github.ajalt.mordant.rendering.TextAlign
 import com.github.ajalt.mordant.rendering.TextColors.*
 import com.github.ajalt.mordant.rendering.TextStyles.*
 import com.github.ajalt.mordant.rendering.Whitespace
@@ -18,7 +19,10 @@ import java.io.File
 import kotlin.math.sqrt
 
 private val logger = LoggerFactory.getLogger("com.producttracker.Main")
-private val terminal = Terminal(ansiLevel = AnsiLevel.TRUECOLOR)
+private val terminal = Terminal(
+    width = 120,
+    ansiLevel = AnsiLevel.TRUECOLOR
+)
 
 fun main() = runBlocking {
     printHeaderBanner()
@@ -169,6 +173,13 @@ private fun printDescriptiveStatsTable(statsRows: List<DescriptiveStatRow>) {
     terminal.print(
         table {
             borderStyle = cyan
+            column(0) { align = TextAlign.LEFT }
+            column(1) { align = TextAlign.LEFT }
+            column(2) { align = TextAlign.RIGHT }
+            column(3) { align = TextAlign.RIGHT }
+            column(4) { align = TextAlign.RIGHT }
+            column(5) { align = TextAlign.RIGHT }
+            column(6) { align = TextAlign.RIGHT }
             header {
                 row(
                     yellow(bold("Variable")),
@@ -185,11 +196,11 @@ private fun printDescriptiveStatsTable(statsRows: List<DescriptiveStatRow>) {
                     row(
                         yellow(r.variable),
                         green(r.unitOfMeasure),
-                        "%9.4f".format(r.mean),
-                        "%9.4f".format(r.stdDev),
-                        "%9.4f".format(r.min),
-                        "%9.4f".format(r.median),
-                        "%10.4f".format(r.max)
+                        "%.4f".format(r.mean),
+                        "%.4f".format(r.stdDev),
+                        "%.4f".format(r.min),
+                        "%.4f".format(r.median),
+                        "%.4f".format(r.max)
                     )
                 }
             }
@@ -207,6 +218,12 @@ private fun printContinuousDemandBenchmarkTable(
     terminal.print(
         table {
             borderStyle = blue
+            column(0) { align = TextAlign.LEFT }
+            column(1) { align = TextAlign.LEFT }
+            column(2) { align = TextAlign.RIGHT }
+            column(3) { align = TextAlign.RIGHT }
+            column(4) { align = TextAlign.RIGHT }
+            column(5) { align = TextAlign.RIGHT }
             header {
                 row(
                     yellow(bold("Variable")),
@@ -248,6 +265,11 @@ private fun printBinaryChoiceBenchmarkTable(
     terminal.print(
         table {
             borderStyle = yellow
+            column(0) { align = TextAlign.LEFT }
+            column(1) { align = TextAlign.LEFT }
+            column(2) { align = TextAlign.RIGHT }
+            column(3) { align = TextAlign.RIGHT }
+            column(4) { align = TextAlign.RIGHT }
             header {
                 row(
                     brightWhite(bold("Variable")),
@@ -323,6 +345,9 @@ private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
     terminal.print(
         table {
             borderStyle = yellow
+            column(0) { align = TextAlign.LEFT }
+            column(1) { align = TextAlign.RIGHT }
+            column(2) { align = TextAlign.RIGHT }
             header {
                 row(
                     brightWhite(bold("Sample Size (N)")),
@@ -350,6 +375,12 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
     terminal.print(
         table {
             borderStyle = green
+            column(0) { align = TextAlign.LEFT }
+            column(1) { align = TextAlign.RIGHT }
+            column(2) { align = TextAlign.RIGHT }
+            column(3) { align = TextAlign.RIGHT }
+            column(4) { align = TextAlign.RIGHT }
+            column(5) { align = TextAlign.LEFT }
             header {
                 row(
                     yellow(bold("Model Estimator")),
@@ -391,6 +422,14 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
     terminal.print(
         table {
             borderStyle = magenta
+            column(0) { align = TextAlign.LEFT }
+            column(1) { align = TextAlign.RIGHT }
+            column(2) { align = TextAlign.RIGHT }
+            column(3) { align = TextAlign.RIGHT }
+            column(4) { align = TextAlign.RIGHT }
+            column(5) { align = TextAlign.RIGHT }
+            column(6) { align = TextAlign.RIGHT }
+            column(7) { align = TextAlign.LEFT }
             header {
                 row(
                     brightWhite(bold("Binary Model")),
