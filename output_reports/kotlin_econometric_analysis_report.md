@@ -1,40 +1,40 @@
 # 🚀 Kotlin / JVM Econometric Demand Analysis & Regression Benchmark
 
 ## 1. Executive Summary
-This report summarizes the **Kotlin/JVM Implementation** of the product tracker econometric pipeline (N=10 products, T=100 periods, N x T = 1000 observations).
+This report summarizes the **Kotlin/JVM Implementation** of the product tracker econometric pipeline (N=10 products, T=100 periods, N x T = 2000 observations).
 
 ## 2. Descriptive Statistics (With Units of Measure)
 
 | Variable | Unit of Measure | Mean | Std Dev | Min | Median | Max |
 |---|---|---|---|---|---|---|
-| Local Price | Local Currency (£ GBP / € EUR / $ USD) | 476.7357 | 125.0903 | 213.1932 | 458.4397 | 936.7850 |
-| Price (USD) | $ USD | 508.4594 | 134.2069 | 233.9723 | 486.9927 | 1044.4165 |
-| Quantity Demanded | # Units Sold / Period | 1.8008 | 0.9894 | 0.3042 | 1.5683 | 6.2727 |
-| High Demand Indicator | Binary (0 or 1) | 0.5000 | 0.5003 | 0.0000 | 0.5000 | 1.0000 |
-| Competitor Price | $ USD | 54.4077 | 6.9782 | 38.0746 | 53.5273 | 82.1906 |
-| Consumer Rating | Stars (1.0 to 5.0 Scale) | 4.0274 | 0.2734 | 3.0075 | 4.0291 | 4.9514 |
-| Page Count | # Pages | 395.6000 | 88.6256 | 259.0000 | 390.0000 | 610.0000 |
-| Item Weight | Kilograms (kg) | 0.9300 | 0.4808 | 0.3800 | 0.7800 | 1.6900 |
-| Wholesale Cost Index | $ USD Index | 39.6567 | 8.8416 | 22.7736 | 38.4725 | 79.7447 |
-| Logistics Shipping Index | $ USD / Ton-Shipment | 20.0645 | 4.1794 | 7.2551 | 20.1058 | 31.4087 |
+| Local Price | Local Currency (£ GBP / € EUR / $ USD) | 358.6121 | 170.0775 | 78.2458 | 351.1942 | 1042.0056 |
+| Price (USD) | $ USD | 459.0235 | 217.6992 | 100.1546 | 449.5285 | 1333.7672 |
+| Quantity Demanded | # Units Sold / Period | 2.3579 | 1.7131 | 0.2432 | 1.9005 | 15.8408 |
+| High Demand Indicator | Binary (0 or 1) | 0.5000 | 0.5001 | 0.0000 | 0.5000 | 1.0000 |
+| Competitor Price | $ USD | 48.8142 | 19.3700 | 15.5712 | 52.9337 | 87.1400 |
+| Consumer Rating | Stars (1.0 to 5.0 Scale) | 4.0389 | 0.2734 | 3.0075 | 4.0391 | 4.9514 |
+| Page Count | # Pages | 430.1000 | 116.7947 | 259.0000 | 406.5000 | 643.0000 |
+| Item Weight | Kilograms (kg) | 1.0150 | 0.4465 | 0.3800 | 1.0050 | 1.6900 |
+| Wholesale Cost Index | $ USD Index | 39.6629 | 8.7981 | 22.4207 | 38.2948 | 81.7953 |
+| Logistics Shipping Index | $ USD / Ton-Shipment | 19.9825 | 4.1287 | 7.2551 | 19.8767 | 32.1488 |
 
 ## 3. Master Demand Elasticity Benchmark (Continuous Demand)
 
 | Variable | Unit | Pooled OLS (HC3) | Fixed Effects (FE) | Random Effects (RE) | 2SLS IV (Causal) |
 |---|---|---|---|---|---|
-| Intercept | - | 2.4540 | - | 1.7617 | 3.6598 |
-| log(Price [USD]) | $ USD | -1.0333*** | -1.4606*** | -1.3941*** | -1.3519*** |
-| log(CompetitorPrice) | $ USD | 0.1185*** | 0.5877*** | 0.4978*** | 0.2765*** |
-| Rating (Stars) | Stars (1-5) | 0.9745*** | - | 0.5137*** | 1.0089*** |
+| Intercept | - | 2.8101 | - | 1.7351 | 3.3789 |
+| log(Price [USD]) | $ USD | -1.1151*** | -1.4667*** | -1.4117*** | -1.4043*** |
+| log(CompetitorPrice) | $ USD | 0.2576*** | 0.6337*** | 0.5574*** | 0.5416*** |
+| Rating (Stars) | Stars (1-5) | 0.8815*** | - | 0.5093*** | 0.9039*** |
 
 ## 4. Binary Choice Model Benchmark (LPM vs Logit vs Probit)
 
 | Variable | Unit | LPM (OLS) | Logit (AME) | Probit (AME) |
 |---|---|---|---|---|
-| Intercept | - | 1.3054 | 19.2482 | 11.2666 |
-| log(Price [USD]) | $ USD | -0.7443*** | -0.9561*** (AME) | -0.9541*** (AME) |
-| log(CompetitorPrice) | $ USD | 0.1742*** | 0.0909*** (AME) | 0.0895*** (AME) |
-| Rating (Stars) | Stars (1-5) | 0.7729*** | 0.6129*** (AME) | 0.6121*** (AME) |
+| Intercept | - | 2.1837 | 19.2482 | 11.2666 |
+| log(Price [USD]) | $ USD | -0.7539*** | -0.9561*** (AME) | -0.9541*** (AME) |
+| log(CompetitorPrice) | $ USD | 0.2153*** | 0.0909*** (AME) | 0.0895*** (AME) |
+| Rating (Stars) | Stars (1-5) | 0.5019*** | 0.6129*** (AME) | 0.6121*** (AME) |
 
 ## 5. Model Selection, Statistical Decisions & Probabilistic Outcome Analysis
 
@@ -42,13 +42,13 @@ To decide which model is best, we analyze **Statistical Hypothesis Tests (p-valu
 
 | Model | Elasticity / AME | p-value | Brier Score | Log-Loss | ROC-AUC | P-Score (%) | Decision & Rationale |
 |---|---|---|---|---|---|---|---|
-| Pooled OLS (HC3) | -1.0333*** | 0.0000 | - | - | - | **47.2%** | Rejected (Omitted Quality Bias): Ignores unobserved quality shock alpha_i (Cov(P, alpha_i) > 0), causing upward attenuation bias. |
-| Random Effects (RE) | -1.3941*** | 0.0000 | - | - | - | **55.5%** | Rejected (Hausman p < 0.05): Hausman test (stat=44.23, p=0.0000) rejects RE orthogonality assumption. |
-| Fixed Effects (FE) | -1.4606*** | 0.0000 | - | - | - | **92.3%** | Selected (Best Panel Within Estimator): Eliminates entity-level time-invariant quality shocks alpha_i identically via within-transformation. |
-| 2SLS IV (Causal) | -1.3519*** | 0.0000 | - | - | - | **96.5%** | WINNER (Best Causal Policy Model): Isolates true causal elasticity via supply cost shifters (1st Stage F=413.8 > 10, p < 0.001; Sargan J p=0.8924). |
-| Linear Probability Model (LPM) | -0.7443*** | 0.0000 | 0.1793 | 0.5269 | 0.7572 | **76.6%** | Acceptable Linear Approx (CLT Valid): Valid asymptotic linear Taylor approximation near P=0.5, but suffers 5.7% boundary violations (P < 0 or P > 1). |
-| Probit Model (AME) | -0.9541*** | 0.0001 | 0.5000 | 17.2694 | 0.5000 | **59.2%** | Selected (Runner-up Binary Model): Strictly bounded normal CDF [0,1], high AUC (0.5000), low Brier score (0.5000). |
-| Logit Model (AME) | -0.9561*** | 0.0001 | 0.5000 | 15.1307 | 0.5000 | **59.2%** | WINNER (Best Probabilistic Choice Model): Optimal logistic sigmoid log-odds mapping, 0% boundary violations, top ROC-AUC (0.5000), lowest Brier score (0.5000). |
+| Pooled OLS (HC3) | -1.1151*** | 0.0000 | - | - | - | **48.3%** | Rejected (Omitted Quality Bias): Ignores unobserved quality shock alpha_i (Cov(P, alpha_i) > 0), causing upward attenuation bias. |
+| Random Effects (RE) | -1.4117*** | 0.0000 | - | - | - | **55.8%** | Rejected (Hausman p < 0.05): Hausman test (stat=30.24, p=0.0000) rejects RE orthogonality assumption. |
+| Fixed Effects (FE) | -1.4667*** | 0.0000 | - | - | - | **92.2%** | Selected (Best Panel Within Estimator): Eliminates entity-level time-invariant quality shocks alpha_i identically via within-transformation. |
+| 2SLS IV (Causal) | -1.4043*** | 0.0000 | - | - | - | **96.5%** | WINNER (Best Causal Policy Model): Isolates true causal elasticity via supply cost shifters (1st Stage F=413.8 > 10, p < 0.001; Sargan J p=0.8924). |
+| Linear Probability Model (LPM) | -0.7539*** | 0.0000 | 0.1424 | 0.4388 | 0.7905 | **79.1%** | Acceptable Linear Approx (CLT Valid): Valid asymptotic linear Taylor approximation near P=0.5, but suffers 13.0% boundary violations (P < 0 or P > 1). |
+| Probit Model (AME) | -0.9541*** | 0.0001 | 0.5000 | 17.0949 | 0.5000 | **59.2%** | Selected (Runner-up Binary Model): Strictly bounded normal CDF [0,1], high AUC (0.5000), low Brier score (0.5000). |
+| Logit Model (AME) | -0.9561*** | 0.0001 | 0.5000 | 12.3543 | 0.5000 | **59.2%** | WINNER (Best Probabilistic Choice Model): Optimal logistic sigmoid log-odds mapping, 0% boundary violations, top ROC-AUC (0.5000), lowest Brier score (0.5000). |
 
 ## 6. Visual Diagnostics (XChart / JVM Renders)
 

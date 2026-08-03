@@ -12,28 +12,25 @@ import kotlin.math.*
 
 object RegressionEngine {
 
-    fun generatePanelData(nProducts: Int = 10, nPeriods: Int = 100, seed: Long = 42L): List<ProductObservation> {
+    fun generatePanelData(
+        scrapedProducts: List<ScrapedProductInfo> = emptyList(),
+        nProducts: Int = 10,
+        nPeriods: Int = 100,
+        seed: Long = 42L
+    ): List<ProductObservation> {
         val rand = Random(seed)
         val gammaDist = GammaDistribution(5.0, 4.0)
         gammaDist.reseedRandomGenerator(seed)
 
         val records = mutableListOf<ProductObservation>()
         val currencies = listOf("£ (GBP)", "€ (EUR)", "$ (USD)", "$ (USD)", "$ (USD)")
-        
-        // Base initial scraped prices to mirror Python web scraper results
-        val scrapedBasePrices = listOf(51.77, 53.74, 50.10, 54.23, 47.82, 45.00, 48.50, 52.10, 55.00, 49.20)
+        val totalProducts = maxOf(nProducts, scrapedProducts.size)
 
-        for (i in 1..nProducts) {
-            val basePriceLocal = if (i <= scrapedBasePrices.size) scrapedBasePrices[i - 1] else (45.0 + i * 3.5)
-            val productName = when (i) {
-                1 -> "A Light in the Attic"
-                2 -> "Tipping the Velvet"
-                3 -> "Soumission"
-                4 -> "Sapiens: A Brief History of Humankind"
-                5 -> "Sharp Objects"
-                else -> "Product Variant $i"
-            }
-            val currency = currencies[(i - 1) % currencies.size]
+        for (i in 1..totalProducts) {
+            val scraped = if (i <= scrapedProducts.size) scrapedProducts[i - 1] else null
+            val basePriceLocal = scraped?.price ?: (45.0 + i * 3.5)
+            val productName = scraped?.name ?: "Product Variant $i"
+            val currency = scraped?.currency ?: currencies[(i - 1) % currencies.size]
             val fxRate = if (currency.contains("GBP")) 1.28 else if (currency.contains("EUR")) 1.08 else 1.0
             val basePriceUsd = basePriceLocal * fxRate
 

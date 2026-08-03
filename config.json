@@ -1,0 +1,36 @@
+{
+  "max_concurrent_requests": 5,
+  "search_catalog_url": "http://books.toscrape.com/catalogue/category/books_1/index.html",
+  "products": [
+    {
+      "name": "A Light in the Attic",
+      "url": "http://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
+      "selector": ".price_color",
+      "target_price": 60.00
+    },
+    {
+      "name": "Tipping the Velvet",
+      "url": "http://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html",
+      "selector": ".price_color",
+      "target_price": 50.00
+    },
+    {
+      "name": "Soumission",
+      "url": "http://books.toscrape.com/catalogue/soumission_998/index.html",
+      "selector": ".price_color",
+      "target_price": 50.00
+    },
+    {
+      "name": "Sharp Objects",
+      "url": "http://books.toscrape.com/catalogue/sharp-objects_997/index.html",
+      "selector": ".price_color",
+      "target_price": 45.00
+    },
+    {
+      "name": "Sapiens: A Brief History of Humankind",
+      "url": "http://books.toscrape.com/catalogue/sapiens-a-brief-history-of-humankind_996/index.html",
+      "selector": ".price_color",
+      "target_price": 55.00
+    }
+  ]
+}

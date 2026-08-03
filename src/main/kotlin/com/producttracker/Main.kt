@@ -27,9 +27,11 @@ fun main() = runBlocking {
     printHeaderBanner()
     logger.info("Initializing Master Econometric & Async Pipeline...")
 
-    // 1. Generate Panel Dataset
-    logger.info("Stage 1: Constructing rich panel dataset (N=10 products, T=100 periods = 1,000 observations)...")
-    val data = RegressionEngine.generatePanelData(nProducts = 10, nPeriods = 100)
+    // 1. Web Scraping & Panel Data Generation
+    logger.info("Stage 1: Async fetching product metadata & web search catalog discovery...")
+    val scrapedProducts = com.producttracker.econometrics.WebScraperEngine.searchAndScrapeProducts("config.json")
+    logger.info("Stage 2: Constructing rich panel dataset (N=${scrapedProducts.size} products, T=100 periods = ${scrapedProducts.size * 100} observations)...")
+    val data = RegressionEngine.generatePanelData(scrapedProducts = scrapedProducts, nProducts = 10, nPeriods = 100)
     logger.info("Saved panel dataset (${data.size} obs) to 'econometric_panel_data.csv'")
 
     // 2. Compute Descriptive Statistics with Units of Measure
