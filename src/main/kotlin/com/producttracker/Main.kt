@@ -5,6 +5,7 @@ import com.producttracker.econometrics.RegressionEngine
 import com.producttracker.model.DescriptiveStatRow
 import com.producttracker.viz.ChartGenerator
 import com.github.ajalt.mordant.terminal.Terminal
+import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.rendering.TextColors.*
 import com.github.ajalt.mordant.rendering.TextStyles.*
 import com.github.ajalt.mordant.rendering.Whitespace
@@ -17,7 +18,7 @@ import java.io.File
 import kotlin.math.sqrt
 
 private val logger = LoggerFactory.getLogger("com.producttracker.Main")
-private val terminal = Terminal()
+private val terminal = Terminal(ansiLevel = AnsiLevel.TRUECOLOR)
 
 fun main() = runBlocking {
     printHeaderBanner()
@@ -157,6 +158,7 @@ private fun printHeaderBanner() {
         Panel(
             Text(cyan(bold("🚀 PRODUCT TRACKER KOTLIN / JVM — ADVANCED ECONOMETRIC & VISUAL ANALYTICS SUITE")), whitespace = Whitespace.PRE),
             title = Text(magenta(bold("Product Tracker Suite"))),
+            borderStyle = magenta,
             expand = true
         )
     )
@@ -166,6 +168,7 @@ private fun printDescriptiveStatsTable(statsRows: List<DescriptiveStatRow>) {
     terminal.println()
     terminal.print(
         table {
+            borderStyle = cyan
             header {
                 row(
                     yellow(bold("Variable")),
@@ -203,6 +206,7 @@ private fun printContinuousDemandBenchmarkTable(
     terminal.println()
     terminal.print(
         table {
+            borderStyle = blue
             header {
                 row(
                     yellow(bold("Variable")),
@@ -243,6 +247,7 @@ private fun printBinaryChoiceBenchmarkTable(
     terminal.println()
     terminal.print(
         table {
+            borderStyle = yellow
             header {
                 row(
                     brightWhite(bold("Variable")),
@@ -287,6 +292,7 @@ private fun printMathDerivationsPanelContinuous() {
                 """.trimIndent()
             ),
             title = Text(cyan(bold("📐 Mathematical Derivations: Panel OLS vs FE vs RE vs 2SLS IV"))),
+            borderStyle = cyan,
             expand = true
         )
     )
@@ -306,6 +312,7 @@ private fun printMathDerivationsPanelBinary() {
                 """.trimIndent()
             ),
             title = Text(yellow(bold("🧮 Mathematical Derivations: AME & LPM CLT Asymptotic Convergence"))),
+            borderStyle = yellow,
             expand = true
         )
     )
@@ -315,6 +322,7 @@ private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
     terminal.println()
     terminal.print(
         table {
+            borderStyle = yellow
             header {
                 row(
                     brightWhite(bold("Sample Size (N)")),
@@ -341,6 +349,7 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
     terminal.println()
     terminal.print(
         table {
+            borderStyle = green
             header {
                 row(
                     yellow(bold("Model Estimator")),
@@ -381,6 +390,7 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
     terminal.println()
     terminal.print(
         table {
+            borderStyle = magenta
             header {
                 row(
                     brightWhite(bold("Binary Model")),
@@ -433,6 +443,7 @@ private fun printProbabilisticDecisionPanel(matrix: com.producttracker.model.Mas
                 """.trimIndent()
             ),
             title = Text(green(bold("🧠 Probabilistic Model Selection Summary"))),
+            borderStyle = green,
             expand = true
         )
     )
@@ -444,6 +455,7 @@ private fun printChartsSavedPanel(plotsDir: String, numCharts: Int) {
         Panel(
             Text("Saved $numCharts high-resolution XChart PNG charts to local directory:\n$plotsDir"),
             title = Text(green(bold("🎨 Charts Saved"))),
+            borderStyle = green,
             expand = true
         )
     )
