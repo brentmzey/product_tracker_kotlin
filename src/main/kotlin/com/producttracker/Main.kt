@@ -157,9 +157,9 @@ fun main() = runBlocking {
 
 private fun printHeaderBanner() {
     println("""
-$BRIGHT_MAGENTA╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║ $BRIGHT_CYAN🚀 PRODUCT TRACKER KOTLIN / JVM — ADVANCED ECONOMETRIC & VISUAL ANALYTICS SUITE                                             $BRIGHT_MAGENTA║
-╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝$RESET
+$BRIGHT_MAGENTA╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║ $BRIGHT_CYAN🚀 PRODUCT TRACKER KOTLIN / JVM — ADVANCED ECONOMETRIC & VISUAL ANALYTICS SUITE                                         $BRIGHT_MAGENTA║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝$RESET
     """.trimIndent())
 }
 
@@ -240,27 +240,25 @@ private fun printBinaryChoiceBenchmarkTable(
 
 private fun printMathDerivationsPanelContinuous() {
     println("""
-$BRIGHT_CYAN╭────────────────────────────────────────────────────────── 📐 Mathematical Derivations: Panel OLS vs FE vs RE vs 2SLS IV ───────────────────────────────────────────────────────────╮
-│ Continuous Demand Identification Proofs:                                                                                                                                           │
-│ 1. Pooled OLS Attenuation Bias: Ignores unobserved quality α_i. Cov(ln P, α_i) > 0 causes upward attenuation bias (η_OLS = -1.1061).                                               │
-│ 2. Fixed Effects (Within Estimator): Subtracts entity means (y_it - ȳ_i) = (x_it - x̄_i)'β + (e_it - ē_i). Eliminates α_i identically, uncovering η_FE = -1.4466.                   │
-│ 3. Hausman Specification Test: H = (b_FE - b_RE)' [Var(b_FE) - Var(b_RE)]^-1 (b_FE - b_RE) ~ χ^2(K). Test p < 0.001 rejects Random Effects.                                        │
-│ 4. 2SLS Instrumental Variables (Causal): Uses supply instruments Z_1 (Wholesale) and Z_2 (Logistics). Stage 1 F = 413.79 > 10. Identifies true causal elasticity η_IV = -1.4295.   │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
+$BRIGHT_CYAN╭────────────────────────────── 📐 Mathematical Derivations: Panel OLS vs FE vs RE vs 2SLS IV ──────────────────────────────╮
+│ Continuous Demand Identification Proofs:                                                                                  │
+│ 1. Pooled OLS Attenuation Bias: Ignores unobserved quality alpha_i (Cov(ln P, alpha_i) > 0 -> eta_OLS = -1.1061).        │
+│ 2. Fixed Effects (Within Estimator): Subtracts entity means (y_it - y_bar_i) = (x_it - x_bar_i)'beta + e_it -> eta_FE=-1.4466.│
+│ 3. Hausman Specification Test: H = (b_FE - b_RE)' [Var(b_FE) - Var(b_RE)]^-1 (b_FE - b_RE) ~ Chi^2(K) (p < 0.001).        │
+│ 4. 2SLS Instrumental Variables (Causal): Uses supply instruments Z_1 & Z_2 (Stage 1 F = 413.79 > 10 -> eta_IV=-1.4295)   │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
     """.trimIndent())
 }
 
 private fun printMathDerivationsPanelBinary() {
     println("""
-$BRIGHT_YELLOW╭──────────────────────────────────────────────────────── 🧮 Mathematical Derivations: AME & LPM CLT Asymptotic Convergence ─────────────────────────────────────────────────────────╮
-│ Average Marginal Effect (AME) & CLT Convergence Proofs:                                                                                                                            │
-│ 1. What is AME? Average Marginal Effect (NOT Average Mean Error). Computes ∂P_i/∂x_k for every observation and averages across N: AME_k = (1/N) ∑ [γ_k · f(X_i'γ)]. Converts       │
-│ log-odds/z-scores directly into percentage point probabilities.                                                                                                                    │
-│ 2. Logit AME Formula: AME = (1/N) ∑ [γ_k · Λ(X_i'γ)(1 - Λ(X_i'γ))]. Yields -0.9212 (-92.12 percentage point drop per 1% price rise).                                               │
-│ 3. Probit AME Formula: AME = (1/N) ∑ [γ_k · φ(X_i'γ)]. Yields -0.9204.                                                                                                             │
-│ 4. LPM Asymptotic CLT Convergence: By Central Limit Theorem & Slutsky's Theorem, √N(β_LPM - β_AME) -> N(0, Ω_robust). For large N, LPM OLS (-0.9338) acts as a 1st-order Taylor    │
-│ expansion near P=0.5, converging to Logit/Probit AMEs!                                                                                                                             │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
+$BRIGHT_YELLOW╭───────────────────────── 🧮 Mathematical Derivations: AME & LPM CLT Asymptotic Convergence ──────────────────────────╮
+│ Average Marginal Effect (AME) & CLT Convergence Proofs:                                                                   │
+│ 1. What is AME? Average Marginal Effect: AME_k = (1/N) sum [gamma_k * f(X_i'gamma)]. Converts log-odds to probabilities.  │
+│ 2. Logit AME Formula: AME = (1/N) sum [gamma_k * Lambda(X_i'gamma)(1 - Lambda(X_i'gamma))]. Yields -0.9561 (-95.61 pp drop).│
+│ 3. Probit AME Formula: AME = (1/N) sum [gamma_k * phi(X_i'gamma)]. Yields -0.9541.                                        │
+│ 4. LPM Asymptotic CLT Convergence: sqrt(N)(beta_LPM - beta_AME) -> N(0, Omega_robust). 1st-order Taylor expansion near P=0.5 │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
     """.trimIndent())
 }
 
@@ -283,62 +281,71 @@ private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
 }
 
 private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.model.MasterDecisionMatrixResult) {
-    println("\n$BRIGHT_GREEN                                                           🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX$RESET")
-    println("$BRIGHT_GREEN┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓$RESET")
-    println("$BRIGHT_GREEN┃ $BRIGHT_YELLOW%-21s$BRIGHT_GREEN ┃ $GREEN%20s$BRIGHT_GREEN ┃ $BRIGHT_CYAN%7s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%14s$BRIGHT_GREEN ┃ $BRIGHT_GREEN%11s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%-150s$BRIGHT_GREEN ┃$RESET".format(
+    println("\n$BRIGHT_GREEN           🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX$RESET")
+    println("$BRIGHT_GREEN┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓$RESET")
+    println("$BRIGHT_GREEN┃ $BRIGHT_YELLOW%-21s$BRIGHT_GREEN ┃ $GREEN%20s$BRIGHT_GREEN ┃ $BRIGHT_CYAN%7s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%14s$BRIGHT_GREEN ┃ $BRIGHT_GREEN%11s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%-40s$BRIGHT_GREEN ┃$RESET".format(
         "Model Estimator", "Price Elasticity (η)", "p-value", "Model Fit (R²)", "P-Score (%)", "Decision Status & Rationale"
     ))
-    println("$BRIGHT_GREEN┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩$RESET")
+    println("$BRIGHT_GREEN┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩$RESET")
 
     for (row in matrix.continuousModels) {
-        val statusText = "${row.decisionStatus} — ${row.rationale}"
         val pScoreFormatted = "%10.1f%%".format(row.pScorePercent)
         val elasFormatted = "%16.4f***".format(row.coefOrAme)
-        println("$BRIGHT_GREEN│ $BRIGHT_YELLOW%-21s$BRIGHT_GREEN │ %20s │ %7.4f │ %14.4f │ $BRIGHT_GREEN%11s$BRIGHT_GREEN │ $BRIGHT_WHITE%-150s$BRIGHT_GREEN │$RESET".format(
-            row.modelName, elasFormatted, row.pValue, row.rSquaredOrPseudo, pScoreFormatted, statusText
+        println("$BRIGHT_GREEN│ $BRIGHT_YELLOW%-21s$BRIGHT_GREEN │ %20s │ %7.4f │ %14.4f │ $BRIGHT_GREEN%11s$BRIGHT_GREEN │ $BRIGHT_WHITE%-40s$BRIGHT_GREEN │$RESET".format(
+            row.modelName, elasFormatted, row.pValue, row.rSquaredOrPseudo, pScoreFormatted, row.decisionStatus
+        ))
+        val shortRationale = when {
+            row.modelName.contains("OLS") -> "  └─ Ignores quality alpha_i (Omitted Bias)"
+            row.modelName.contains("Random") -> "  └─ Hausman test rejects RE orthogonality"
+            row.modelName.contains("Fixed") -> "  └─ Eliminates entity quality shocks alpha_i"
+            else -> "  └─ Isolates causal price elasticity (F>10)"
+        }
+        println("$BRIGHT_GREEN│ %-21s │ %20s │ %7s │ %14s │ %11s │ $BRIGHT_WHITE%-40s$BRIGHT_GREEN │$RESET".format(
+            "", "", "", "", "", shortRationale
         ))
     }
-    println("$BRIGHT_GREEN└━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━┴━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘$RESET")
+    println("$BRIGHT_GREEN└━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━┴━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘$RESET")
 
-    println("\n$BRIGHT_MAGENTA                                                   🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX$RESET")
-    println("$BRIGHT_MAGENTA┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓$RESET")
-    println("$BRIGHT_MAGENTA┃ $BRIGHT_WHITE%-30s$BRIGHT_MAGENTA ┃ $GREEN%10s$BRIGHT_MAGENTA ┃ $BRIGHT_CYAN%11s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%8s$BRIGHT_MAGENTA ┃ $BRIGHT_GREEN%7s$BRIGHT_MAGENTA ┃ $BRIGHT_WHITE%12s$BRIGHT_MAGENTA ┃ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%-40s$BRIGHT_MAGENTA ┃$RESET".format(
+    println("\n$BRIGHT_MAGENTA              🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX$RESET")
+    println("$BRIGHT_MAGENTA┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓$RESET")
+    println("$BRIGHT_MAGENTA┃ $BRIGHT_WHITE%-21s$BRIGHT_MAGENTA ┃ $GREEN%10s$BRIGHT_MAGENTA ┃ $BRIGHT_CYAN%11s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%8s$BRIGHT_MAGENTA ┃ $BRIGHT_GREEN%7s$BRIGHT_MAGENTA ┃ $BRIGHT_WHITE%12s$BRIGHT_MAGENTA ┃ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%-28s$BRIGHT_MAGENTA ┃$RESET".format(
         "Binary Model", "Price AME", "Brier Score", "Log-Loss", "ROC-AUC", "Boundary Err", "P-Score (%)", "Decision Status"
     ))
-    println("$BRIGHT_MAGENTA┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩$RESET")
+    println("$BRIGHT_MAGENTA┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩$RESET")
 
     for (row in matrix.binaryModels) {
         val pScoreFormatted = "%10.1f%%".format(row.pScorePercent)
         val boundErrFormatted = "%10.1f%%".format((row.boundaryViolationRate ?: 0.0) * 100)
         val ameFormatted = "%6.4f***".format(row.coefOrAme)
+        val nameShort = if (row.modelName.length > 21) row.modelName.take(20) + "…" else row.modelName
 
-        println("$BRIGHT_MAGENTA│ $BRIGHT_WHITE%-30s$BRIGHT_MAGENTA │ %10s │ %11.4f │ %8.4f │ %7.4f │ %12s │ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA │ $BRIGHT_YELLOW%-40s$BRIGHT_MAGENTA │$RESET".format(
-            row.modelName, ameFormatted, row.brierScore ?: 0.0, row.logLoss ?: 0.0, row.rocAuc ?: 0.0, boundErrFormatted, pScoreFormatted, row.decisionStatus
+        println("$BRIGHT_MAGENTA│ $BRIGHT_WHITE%-21s$BRIGHT_MAGENTA │ %10s │ %11.4f │ %8.4f │ %7.4f │ %12s │ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA │ $BRIGHT_YELLOW%-28s$BRIGHT_MAGENTA │$RESET".format(
+            nameShort, ameFormatted, row.brierScore ?: 0.0, row.logLoss ?: 0.0, row.rocAuc ?: 0.0, boundErrFormatted, pScoreFormatted, row.decisionStatus
         ))
     }
-    println("$BRIGHT_MAGENTA└━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━┴━━━━━━━━━┴━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘$RESET")
+    println("$BRIGHT_MAGENTA└━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━┴━━━━━━━━━┴━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘$RESET")
 }
 
 private fun printProbabilisticDecisionPanel(matrix: com.producttracker.model.MasterDecisionMatrixResult) {
     println("""
-$BRIGHT_GREEN╭──────────────────────────────────────────────────────────────────────────────────────────────────── 🧠 PROBABILISTIC MODEL SELECTION & STATISTICAL DECISION MATRIX SUMMARY ────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Optimal Continuous Model (Causal Policy): ${matrix.bestContinuousCausal} (P-Score: 96.5%)                                                                                                                                                                                                    │
-│   └─ Reason: Isolates true causal price variation using exogenous supply instruments (Stage 1 F=${String.format("%.1f", matrix.stage1FStat)} > 10, Hausman p < 0.001).                                                                                                                                          │
-│ Optimal Continuous Model (Panel Within): ${matrix.bestContinuousPanel} (P-Score: 93.4%)                                                                                                                                                                                                   │
-│   └─ Reason: Eliminates entity quality shocks α_i identically.                                                                                                                                                                                                                 │
-│ Optimal Binary Choice Model (Risk Decision): ${matrix.bestBinaryModel} (P-Score: 81.9%)                                                                                                                                                                                                │
-│   └─ Reason: Top ROC-AUC (0.8441), lowest Brier score (0.1613), 0% boundary violations.                                                                                                                                                                                        │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
+$BRIGHT_GREEN╭──────────────────────────────────────── 🧠 Probabilistic Model Selection Summary ──────────────────────────────────────────╮
+│ 🏆 Optimal Continuous Model (Causal Policy): ${matrix.bestContinuousCausal} (P-Score: 96.5%)                                                    │
+│    └─ Reason: Isolates true causal price elasticity via supply cost shifters (Stage 1 F=${String.format("%.1f", matrix.stage1FStat)} > 10, Hausman p < 0.001).           │
+│ 📊 Optimal Panel Estimator (Within Entity): ${matrix.bestContinuousPanel} (P-Score: 93.4%)                                                        │
+│    └─ Reason: Eliminates unobserved entity quality shocks α_i identically (Hausman test p < 0.001 rejects RE).                             │
+│ 🎯 Optimal Binary Choice Model (Probabilistic Risk): ${matrix.bestBinaryModel} (P-Score: 81.9%)                                                    │
+│    └─ Reason: Bounded sigmoid log-odds mapping, highest ROC-AUC, lowest Brier calibration score, zero boundary errors.                     │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
     """.trimIndent())
 }
 
 private fun printChartsSavedPanel(plotsDir: String, numCharts: Int) {
     println("""
-$BRIGHT_GREEN╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 🎨 Charts Saved ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Saved $numCharts high-resolution XChart PNG charts to local directory:                                                                                                                                                                                                                 │
-│ $plotsDir                                                                                                                                                                                                                                                                      │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
-    """.trimIndent())
+$BRIGHT_GREEN╭───────────────────────────────────────────────────────── 🎨 Charts Saved ──────────────────────────────────────────────────────────╮
+│ Saved $numCharts high-resolution XChart PNG charts to local directory:                                                                             │
+│ %-113s │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
+    """.format(plotsDir).trimIndent())
 }
 
 
