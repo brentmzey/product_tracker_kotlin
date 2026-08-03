@@ -7,10 +7,48 @@ import org.apache.commons.math3.distribution.NormalDistribution
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.LUDecomposition
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression
+import java.io.File
 import java.util.Random
 import kotlin.math.*
 
 object RegressionEngine {
+
+    fun loadPanelDataFromCsv(csvFile: File): List<ProductObservation> {
+        val lines = csvFile.readLines()
+        if (lines.size <= 1) return emptyList()
+        val regex = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()
+        val header = regex.split(lines[0]).map { it.trim().removeSurrounding("\"") }
+        val idxMap = header.withIndex().associate { it.value to it.index }
+
+        return lines.drop(1).filter { it.isNotBlank() }.mapNotNull { line ->
+            try {
+                val cols = regex.split(line).map { it.trim().removeSurrounding("\"") }
+                ProductObservation(
+                    productId = cols[idxMap["product_id"]!!].toInt(),
+                    productName = cols[idxMap["product_name"]!!],
+                    period = cols[idxMap["period"]!!].toInt(),
+                    currencyUnit = cols[idxMap["currency_unit"]!!],
+                    priceLocal = cols[idxMap["price_local"]!!].toDouble(),
+                    priceUsd = cols[idxMap["price_usd"]!!].toDouble(),
+                    logPriceUsd = cols[idxMap["log_price_usd"]!!].toDouble(),
+                    quantityUnits = cols[idxMap["quantity_units"]!!].toDouble(),
+                    logQuantity = cols[idxMap["log_quantity"]!!].toDouble(),
+                    highDemandDummy = cols[idxMap["high_demand_dummy"]!!].toInt(),
+                    competitorPriceUsd = cols[idxMap["competitor_price_usd"]!!].toDouble(),
+                    logCompetitorPriceUsd = cols[idxMap["log_competitor_price_usd"]!!].toDouble(),
+                    ratingStars = cols[idxMap["rating_stars"]!!].toDouble(),
+                    pageCountPages = cols[idxMap["page_count_pages"]!!].toInt(),
+                    weightKg = cols[idxMap["weight_kg"]!!].toDouble(),
+                    wholesaleCostIndex = cols[idxMap["wholesale_cost_index"]!!].toDouble(),
+                    logWholesaleCost = cols[idxMap["log_wholesale_cost"]!!].toDouble(),
+                    logisticsCostIndex = cols[idxMap["logistics_cost_index"]!!].toDouble(),
+                    logLogisticsCost = cols[idxMap["log_logistics_cost"]!!].toDouble()
+                )
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
 
     fun generatePanelData(
         scrapedProducts: List<ScrapedProductInfo> = emptyList(),

@@ -8,16 +8,16 @@ object DescriptiveStatsCalculator {
 
     fun computeDescriptiveStats(data: List<ProductObservation>): List<DescriptiveStatRow> {
         val metrics = listOf(
-            Triple("Local Price", "Local Currency (£ GBP / € EUR / $ USD)") { p: ProductObservation -> p.priceLocal },
+            Triple("Local Price", "Local (£/€/$)") { p: ProductObservation -> p.priceLocal },
             Triple("Price (USD)", "$ USD") { p: ProductObservation -> p.priceUsd },
-            Triple("Quantity Demanded", "# Units Sold / Period") { p: ProductObservation -> p.quantityUnits },
-            Triple("High Demand Indicator", "Binary (0 or 1)") { p: ProductObservation -> p.highDemandDummy.toDouble() },
+            Triple("Quantity Demanded", "# Units Sold") { p: ProductObservation -> p.quantityUnits },
+            Triple("High Demand Dummy", "Binary (0/1)") { p: ProductObservation -> p.highDemandDummy.toDouble() },
             Triple("Competitor Price", "$ USD") { p: ProductObservation -> p.competitorPriceUsd },
-            Triple("Consumer Rating", "Stars (1.0 to 5.0 Scale)") { p: ProductObservation -> p.ratingStars },
+            Triple("Consumer Rating", "Stars (1-5)") { p: ProductObservation -> p.ratingStars },
             Triple("Page Count", "# Pages") { p: ProductObservation -> p.pageCountPages.toDouble() },
             Triple("Item Weight", "Kilograms (kg)") { p: ProductObservation -> p.weightKg },
-            Triple("Wholesale Cost Index", "$ USD Index") { p: ProductObservation -> p.wholesaleCostIndex },
-            Triple("Logistics Shipping Index", "$ USD / Ton-Shipment") { p: ProductObservation -> p.logisticsCostIndex }
+            Triple("Wholesale Cost Index", "$ Index") { p: ProductObservation -> p.wholesaleCostIndex },
+            Triple("Logistics Cost Index", "$/Ton") { p: ProductObservation -> p.logisticsCostIndex }
         )
 
         return metrics.map { (label, unit, extractor) ->

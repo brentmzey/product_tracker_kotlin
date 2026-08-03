@@ -18,7 +18,7 @@ import java.io.File
 import kotlin.math.sqrt
 
 private val logger = LoggerFactory.getLogger("com.producttracker.Main")
-private val terminal = Terminal(width = 125, ansiLevel = AnsiLevel.TRUECOLOR)
+private val terminal = Terminal(width = 140, ansiLevel = AnsiLevel.TRUECOLOR)
 
 fun main() = runBlocking {
     logger.info("Initializing Master Econometric & Async Pipeline...")
@@ -26,9 +26,20 @@ fun main() = runBlocking {
     // 1. Web Scraping & Panel Data Generation
     logger.info("Stage 1: Async fetching product metadata & web search catalog discovery...")
     val scrapedProducts = com.producttracker.econometrics.WebScraperEngine.searchAndScrapeProducts("config.json")
-    logger.info("Stage 2: Constructing rich panel dataset (N=${scrapedProducts.size} products, T=100 periods = ${scrapedProducts.size * 100} observations)...")
-    val data = RegressionEngine.generatePanelData(scrapedProducts = scrapedProducts, nProducts = 10, nPeriods = 100)
-    logger.info("Saved panel dataset (${data.size} obs) to 'econometric_panel_data.csv'")
+    
+    val localCsv = File("econometric_panel_data.csv")
+    val pythonCsv = File("../product_tracker_app/econometric_panel_data.csv")
+    val csvToLoad = if (localCsv.exists()) localCsv else if (pythonCsv.exists()) pythonCsv else null
+
+    val data = if (csvToLoad != null) {
+        logger.info("Stage 2: Loading shared panel dataset from '${csvToLoad.name}'...")
+        RegressionEngine.loadPanelDataFromCsv(csvToLoad)
+    } else {
+        logger.info("Stage 2: Constructing rich panel dataset (N=${scrapedProducts.size} products, T=100 periods = ${scrapedProducts.size * 100} observations)...")
+        val d = RegressionEngine.generatePanelData(scrapedProducts = scrapedProducts, nProducts = 10, nPeriods = 100)
+        logger.info("Saved panel dataset (${d.size} obs) to 'econometric_panel_data.csv'")
+        d
+    }
 
     // 2. Compute Descriptive Statistics with Units of Measure
     logger.info("Stage 3: Computing descriptive statistics with units of measure...")
@@ -152,9 +163,8 @@ fun main() = runBlocking {
 }
 
 private fun printCenteredTitle(text: String) {
-    terminal.println()
     val clean = text.replace(Regex("\u001B\\[[;\\d]*m"), "")
-    val targetWidth = 120
+    val targetWidth = 140
     val pad = ((targetWidth - clean.length) / 2).coerceAtLeast(0)
     terminal.println(" ".repeat(pad) + text)
 }
