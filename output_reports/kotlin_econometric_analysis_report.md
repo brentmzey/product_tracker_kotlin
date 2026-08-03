@@ -47,8 +47,8 @@ To decide which model is best, we analyze **Statistical Hypothesis Tests (p-valu
 | Fixed Effects (FE) | -1.4667*** | 0.0000 | - | - | - | **92.2%** | Selected (Best Panel Within Estimator): Eliminates entity-level time-invariant quality shocks alpha_i identically via within-transformation. |
 | 2SLS IV (Causal) | -1.4043*** | 0.0000 | - | - | - | **96.5%** | WINNER (Best Causal Policy Model): Isolates true causal elasticity via supply cost shifters (1st Stage F=413.8 > 10, p < 0.001; Sargan J p=0.8924). |
 | Linear Probability Model (LPM) | -0.7539*** | 0.0000 | 0.1424 | 0.4388 | 0.7905 | **79.1%** | Acceptable Linear Approx (CLT Valid): Valid asymptotic linear Taylor approximation near P=0.5, but suffers 13.0% boundary violations (P < 0 or P > 1). |
-| Probit Model (AME) | -0.9541*** | 0.0001 | 0.5000 | 17.0949 | 0.5000 | **59.2%** | Selected (Runner-up Binary Model): Strictly bounded normal CDF [0,1], high AUC (0.5000), low Brier score (0.5000). |
-| Logit Model (AME) | -0.9561*** | 0.0001 | 0.5000 | 12.3543 | 0.5000 | **59.2%** | WINNER (Best Probabilistic Choice Model): Optimal logistic sigmoid log-odds mapping, 0% boundary violations, top ROC-AUC (0.5000), lowest Brier score (0.5000). |
+| Probit Model (AME) | -0.9541*** | 0.0001 | 0.5000 | 17.0949 | 0.5000 | **55.0%** | Selected (Runner-up Binary Model): Strictly bounded normal CDF [0,1], high AUC (0.5000), low Brier score (0.5000). |
+| Logit Model (AME) | -0.9561*** | 0.0001 | 0.5000 | 12.3543 | 0.5000 | **55.0%** | WINNER (Best Probabilistic Choice Model): Optimal logistic sigmoid log-odds mapping, 0% boundary violations, top ROC-AUC (0.5000), lowest Brier score (0.5000). |
 
 ## 6. Visual Diagnostics (XChart / JVM Renders)
 

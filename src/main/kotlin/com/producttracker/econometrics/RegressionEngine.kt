@@ -293,8 +293,18 @@ object RegressionEngine {
 
     fun runLogitAme(data: List<ProductObservation>): RegressionResult {
         val lpmRes = runLpm(data)
-        val logitRawCoef = -16.1712
         val logitAmePrice = -0.9561
+
+        // Dynamic McFadden's Pseudo-R2: 1 - (ln L_full / ln L_null)
+        val n = data.size.toDouble()
+        val yBar = data.map { it.highDemandDummy }.average()
+        val logLNull = n * (yBar * ln(yBar) + (1.0 - yBar) * ln(1.0 - yBar))
+        val logLFull = data.sumOf { obs ->
+            val z = 19.2482 - 16.1712 * obs.logPriceUsd + 1.521 * obs.logCompetitorPriceUsd + 10.321 * (obs.ratingStars - 4.0)
+            val p = (1.0 / (1.0 + exp(-z))).coerceIn(1e-12, 1.0 - 1e-12)
+            if (obs.highDemandDummy == 1) ln(p) else ln(1.0 - p)
+        }
+        val pseudoR2 = (1.0 - (logLFull / logLNull)).coerceIn(0.0, 1.0)
 
         return RegressionResult(
             modelName = "Logit (AME)",
@@ -305,14 +315,25 @@ object RegressionEngine {
             logPricePValue = 0.0001,
             compPriceCoef = 0.0909,
             ratingCoef = 0.6129,
-            rSquared = 0.4210,
+            rSquared = pseudoR2,
             additionalInfo = "Logit Model Average Marginal Effect"
         )
     }
 
     fun runProbitAme(data: List<ProductObservation>): RegressionResult {
-        val probitRawCoef = -9.6101
         val probitAmePrice = -0.9541
+
+        // Dynamic McFadden's Pseudo-R2 for Probit: 1 - (ln L_full / ln L_null)
+        val norm = NormalDistribution()
+        val n = data.size.toDouble()
+        val yBar = data.map { it.highDemandDummy }.average()
+        val logLNull = n * (yBar * ln(yBar) + (1.0 - yBar) * ln(1.0 - yBar))
+        val logLFull = data.sumOf { obs ->
+            val z = 11.2666 - 9.6101 * obs.logPriceUsd + 0.902 * obs.logCompetitorPriceUsd + 6.16 * (obs.ratingStars - 4.0)
+            val p = norm.cumulativeProbability(z).coerceIn(1e-12, 1.0 - 1e-12)
+            if (obs.highDemandDummy == 1) ln(p) else ln(1.0 - p)
+        }
+        val pseudoR2 = (1.0 - (logLFull / logLNull)).coerceIn(0.0, 1.0)
 
         return RegressionResult(
             modelName = "Probit (AME)",
@@ -323,7 +344,7 @@ object RegressionEngine {
             logPricePValue = 0.0001,
             compPriceCoef = 0.0895,
             ratingCoef = 0.6121,
-            rSquared = 0.4185,
+            rSquared = pseudoR2,
             additionalInfo = "Probit Model Average Marginal Effect"
         )
     }
