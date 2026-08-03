@@ -17,13 +17,9 @@ import java.io.File
 import kotlin.math.sqrt
 
 private val logger = LoggerFactory.getLogger("com.producttracker.Main")
-private val terminal = Terminal(
-    width = 160,
-    ansiLevel = AnsiLevel.TRUECOLOR
-)
+private val terminal = Terminal(width = 160, ansiLevel = AnsiLevel.TRUECOLOR)
 
 fun main() = runBlocking {
-    printHeaderBanner()
     logger.info("Initializing Master Econometric & Async Pipeline...")
 
     // 1. Web Scraping & Panel Data Generation
@@ -154,27 +150,15 @@ fun main() = runBlocking {
     logger.info("Stage 7 complete: Generated Kotlin Econometric Markdown Report at ${reportFile.absolutePath}")
 }
 
-private fun printHeaderBanner() {
-    terminal.println()
-    terminal.print(
-        Panel(
-            Text(cyan(bold("🚀 PRODUCT TRACKER KOTLIN / JVM — ADVANCED ECONOMETRIC & VISUAL ANALYTICS SUITE")), whitespace = Whitespace.PRE),
-            title = Text(magenta(bold("Product Tracker Suite"))),
-            borderStyle = magenta,
-            expand = true
-        )
-    )
-}
-
 private fun printCenteredTitle(text: String) {
-    terminal.println()
     val clean = text.replace(Regex("\u001B\\[[;\\d]*m"), "")
-    val pad = ((terminal.info.width - clean.length) / 2).coerceAtLeast(0)
+    val targetWidth = if (terminal.info.width > 0 && terminal.info.width != 79) terminal.info.width else 120
+    val pad = ((targetWidth - clean.length) / 2).coerceAtLeast(0)
     terminal.println(" ".repeat(pad) + text)
 }
 
 private fun printDescriptiveStatsTable(statsRows: List<DescriptiveStatRow>) {
-    printCenteredTitle(magenta(bold("📊 DESCRIPTIVE STATISTICS (WITH UNITS OF MEASURE)")))
+    printCenteredTitle(bold(magenta("📊 DESCRIPTIVE STATISTICS (WITH UNITS OF MEASURE)")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -220,7 +204,7 @@ private fun printContinuousDemandBenchmarkTable(
     re: com.producttracker.model.RegressionResult,
     iv: com.producttracker.model.RegressionResult
 ) {
-    printCenteredTitle(cyan(bold("📈 MASTER DEMAND ELASTICITY BENCHMARK (CONTINUOUS DEMAND)")))
+    printCenteredTitle(bold(cyan("📈 MASTER DEMAND ELASTICITY BENCHMARK (CONTINUOUS DEMAND)")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -235,10 +219,10 @@ private fun printContinuousDemandBenchmarkTable(
                 row(
                     yellow(bold("Variable")),
                     green(bold("Unit")),
-                    brightWhite(bold("Pooled OLS (HC3)")),
-                    brightWhite(bold("Fixed Effects (FE)")),
-                    brightWhite(bold("Random Effects (RE)")),
-                    brightWhite(bold("2SLS IV (Causal)"))
+                    brightRed(bold("Pooled OLS (HC3)")),
+                    brightYellow(bold("Fixed Effects (FE)")),
+                    brightBlue(bold("Random Effects (RE)")),
+                    brightGreen(bold("2SLS IV (Causal)"))
                 )
             }
             body {
@@ -268,7 +252,7 @@ private fun printBinaryChoiceBenchmarkTable(
     logit: com.producttracker.model.RegressionResult,
     probit: com.producttracker.model.RegressionResult
 ) {
-    printCenteredTitle(yellow(bold("🎯 BINARY CHOICE MODEL BENCHMARK (LPM vs LOGIT vs PROBIT)")))
+    printCenteredTitle(bold(yellow("🎯 BINARY CHOICE MODEL BENCHMARK (LPM vs LOGIT vs PROBIT)")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -282,9 +266,9 @@ private fun printBinaryChoiceBenchmarkTable(
                 row(
                     brightWhite(bold("Variable")),
                     green(bold("Unit")),
-                    cyan(bold("LPM (OLS)")),
-                    blue(bold("Logit (AME)")),
-                    magenta(bold("Probit (AME)"))
+                    brightCyan(bold("LPM (OLS)")),
+                    brightBlue(bold("Logit (AME)")),
+                    brightMagenta(bold("Probit (AME)"))
                 )
             }
             body {
@@ -321,7 +305,7 @@ private fun printMathDerivationsPanelContinuous() {
                 4. 2SLS Instrumental Variables (Causal): Uses supply instruments Z_1 (Wholesale) and Z_2 (Logistics). Stage 1 F = 413.79 > 10. Identifies true causal elasticity η_IV = -1.4295.
                 """.trimIndent()
             ),
-            title = Text(magenta(bold("📐 Mathematical Derivations: Panel OLS vs FE vs RE vs 2SLS IV"))),
+            title = Text(cyan(bold("📐 Mathematical Derivations: Panel OLS vs FE vs RE vs 2SLS IV"))),
             borderStyle = magenta,
             expand = true
         )
@@ -341,7 +325,7 @@ private fun printMathDerivationsPanelBinary() {
                 4. LPM Asymptotic CLT Convergence: By Central Limit Theorem & Slutsky's Theorem, √N(β_LPM - β_AME) -> N(0, Ω_robust). For large N, LPM OLS (-0.9338) acts as a 1st-order Taylor expansion near P=0.5, converging to Logit/Probit AMEs!
                 """.trimIndent()
             ),
-            title = Text(green(bold("🧮 Mathematical Derivations: AME & LPM CLT Asymptotic Convergence"))),
+            title = Text(yellow(bold("🧮 Mathematical Derivations: AME & LPM CLT Asymptotic Convergence"))),
             borderStyle = green,
             expand = true
         )
@@ -349,7 +333,7 @@ private fun printMathDerivationsPanelBinary() {
 }
 
 private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
-    printCenteredTitle(yellow(bold("🧮 CENTRAL LIMIT THEOREM (CLT) CONVERGENCE SIMULATION")))
+    printCenteredTitle(bold(yellow("🧮 CENTRAL LIMIT THEOREM (CLT) CONVERGENCE SIMULATION")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -380,11 +364,11 @@ private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
 }
 
 private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.model.MasterDecisionMatrixResult) {
-    printCenteredTitle(yellow(bold("🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX")))
+    printCenteredTitle(bold(yellow("🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
-            borderStyle = green
+            borderStyle = cyan
             column(0) { align = TextAlign.LEFT }
             column(1) { align = TextAlign.RIGHT }
             column(2) { align = TextAlign.RIGHT }
@@ -393,12 +377,12 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
             column(5) { align = TextAlign.LEFT }
             header {
                 row(
-                    yellow(bold("Model Estimator")),
-                    green(bold("Price Elasticity (η)")),
-                    cyan(bold("p-value")),
-                    brightWhite(bold("Model Fit (R²)")),
-                    green(bold("P-Score (%)")),
-                    brightWhite(bold("Decision Status & Rationale"))
+                    bold(yellow("Model Estimator")),
+                    bold(green("Price Elasticity (η)")),
+                    bold(cyan("p-value")),
+                    bold(brightWhite("Model Fit (R²)")),
+                    bold(brightGreen("P-Score (%)")),
+                    bold(brightWhite("Decision Status & Rationale"))
                 )
             }
             body {
@@ -407,6 +391,12 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                     val elasFormatted = "%.4f***".format(r.coefOrAme)
                     val pValStr = "%.4f".format(r.pValue)
                     val rSqStr = "%.4f".format(r.rSquaredOrPseudo)
+
+                    val statusColored = when {
+                        r.decisionStatus.contains("WINNER") -> bold(brightGreen(r.decisionStatus))
+                        r.decisionStatus.contains("Selected") -> brightYellow(r.decisionStatus)
+                        else -> red(r.decisionStatus)
+                    }
 
                     val shortRationale = when {
                         r.modelName.contains("OLS") -> "Ignores quality α_i (Omitted Quality Bias)"
@@ -420,19 +410,19 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                         elasFormatted,
                         pValStr,
                         rSqStr,
-                        green(pScoreFormatted),
-                        "${r.decisionStatus}\n└─ $shortRationale"
+                        brightGreen(pScoreFormatted),
+                        "$statusColored — $shortRationale"
                     )
                 }
             }
         }
     )
 
-    printCenteredTitle(white(bold("🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX")))
+    printCenteredTitle(bold(magenta("🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
-            borderStyle = magenta
+            borderStyle = green
             column(0) { align = TextAlign.LEFT }
             column(1) { align = TextAlign.RIGHT }
             column(2) { align = TextAlign.RIGHT }
@@ -443,14 +433,14 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
             column(7) { align = TextAlign.LEFT }
             header {
                 row(
-                    brightWhite(bold("Binary Model")),
-                    green(bold("Price AME")),
-                    cyan(bold("Brier Score")),
-                    yellow(bold("Log-Loss")),
-                    green(bold("ROC-AUC")),
-                    brightWhite(bold("Boundary Err")),
-                    magenta(bold("P-Score (%)")),
-                    yellow(bold("Decision Status"))
+                    bold(brightWhite("Binary Model")),
+                    bold(green("Price AME")),
+                    bold(brightCyan("Brier Score")),
+                    bold(yellow("Log-Loss")),
+                    bold(green("ROC-AUC")),
+                    bold(red("Boundary Err")),
+                    bold(brightMagenta("P-Score (%)")),
+                    bold(yellow("Decision Status"))
                 )
             }
             body {
@@ -462,6 +452,12 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                     val logLossStr = "%.4f".format(r.logLoss ?: 0.0)
                     val rocAucStr = "%.4f".format(r.rocAuc ?: 0.0)
 
+                    val statusColored = when {
+                        r.decisionStatus.contains("WINNER") -> bold(brightGreen(r.decisionStatus))
+                        r.decisionStatus.contains("Selected") -> brightYellow(r.decisionStatus)
+                        else -> cyan(r.decisionStatus)
+                    }
+
                     row(
                         brightWhite(r.modelName),
                         ameFormatted,
@@ -469,8 +465,8 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                         logLossStr,
                         rocAucStr,
                         boundErrFormatted,
-                        magenta(pScoreFormatted),
-                        yellow(r.decisionStatus)
+                        brightMagenta(pScoreFormatted),
+                        statusColored
                     )
                 }
             }
@@ -492,8 +488,8 @@ private fun printProbabilisticDecisionPanel(matrix: com.producttracker.model.Mas
                   └─ Reason: Top ROC-AUC (0.9275), lowest Brier score (0.1061), 0% boundary violations.
                 """.trimIndent()
             ),
-            title = Text(green(bold("🧠 PROBABILISTIC MODEL SELECTION & STATISTICAL DECISION MATRIX SUMMARY"))),
-            borderStyle = green,
+            title = Text(brightGreen(bold("🧠 PROBABILISTIC MODEL SELECTION & STATISTICAL DECISION MATRIX SUMMARY"))),
+            borderStyle = brightGreen,
             expand = true
         )
     )
