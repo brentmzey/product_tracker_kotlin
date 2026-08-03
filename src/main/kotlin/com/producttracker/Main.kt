@@ -8,6 +8,7 @@ import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.rendering.*
 import com.github.ajalt.mordant.rendering.TextColors.*
 import com.github.ajalt.mordant.rendering.TextStyles.*
+import com.github.ajalt.mordant.rendering.BorderType
 import com.github.ajalt.mordant.table.table
 import com.github.ajalt.mordant.widgets.Panel
 import com.github.ajalt.mordant.widgets.Text
@@ -17,7 +18,7 @@ import java.io.File
 import kotlin.math.sqrt
 
 private val logger = LoggerFactory.getLogger("com.producttracker.Main")
-private val terminal = Terminal(width = 160, ansiLevel = AnsiLevel.TRUECOLOR)
+private val terminal = Terminal(width = 125, ansiLevel = AnsiLevel.TRUECOLOR)
 
 fun main() = runBlocking {
     logger.info("Initializing Master Econometric & Async Pipeline...")
@@ -151,8 +152,9 @@ fun main() = runBlocking {
 }
 
 private fun printCenteredTitle(text: String) {
+    terminal.println()
     val clean = text.replace(Regex("\u001B\\[[;\\d]*m"), "")
-    val targetWidth = if (terminal.info.width > 0 && terminal.info.width != 79) terminal.info.width else 120
+    val targetWidth = 120
     val pad = ((targetWidth - clean.length) / 2).coerceAtLeast(0)
     terminal.println(" ".repeat(pad) + text)
 }
@@ -398,11 +400,11 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                         else -> red(r.decisionStatus)
                     }
 
-                    val shortRationale = when {
-                        r.modelName.contains("OLS") -> "Ignores quality α_i (Omitted Quality Bias)"
-                        r.modelName.contains("Random") -> "Hausman test p < 0.05 rejects RE orthogonality"
-                        r.modelName.contains("Fixed") -> "Eliminates entity quality shocks α_i identically"
-                        else -> "Isolates true causal price elasticity via supply cost shifters"
+                    val (rLine1, rLine2) = when {
+                        r.modelName.contains("OLS") -> "Ignores quality α_i" to "└─ (Omitted Quality Bias)"
+                        r.modelName.contains("Random") -> "Hausman test p < 0.05" to "└─ Rejects RE orthogonality"
+                        r.modelName.contains("Fixed") -> "Eliminates entity quality" to "└─ Shocks α_i identically"
+                        else -> "Isolates true causal elasticity" to "└─ Via supply cost shifters"
                     }
 
                     row(
@@ -411,7 +413,7 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                         pValStr,
                         rSqStr,
                         brightGreen(pScoreFormatted),
-                        "$statusColored — $shortRationale"
+                        "$statusColored\n$rLine1\n$rLine2"
                     )
                 }
             }
@@ -452,21 +454,27 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                     val logLossStr = "%.4f".format(r.logLoss ?: 0.0)
                     val rocAucStr = "%.4f".format(r.rocAuc ?: 0.0)
 
-                    val statusColored = when {
-                        r.decisionStatus.contains("WINNER") -> bold(brightGreen(r.decisionStatus))
-                        r.decisionStatus.contains("Selected") -> brightYellow(r.decisionStatus)
-                        else -> cyan(r.decisionStatus)
+                    val modelNameShort = when {
+                        r.modelName.contains("Linear") -> "LPM Model"
+                        r.modelName.contains("Probit") -> "Probit (AME)"
+                        else -> "Logit (AME)"
+                    }
+
+                    val statusFormatted = when {
+                        r.decisionStatus.contains("WINNER") -> bold(brightGreen("WINNER")) + "\n└─ " + brightGreen("(Best Model)")
+                        r.decisionStatus.contains("Selected") -> brightYellow("Selected") + "\n└─ " + brightYellow("(Runner-up)")
+                        else -> cyan("Acceptable Linear") + "\n└─ " + cyan("Approx (CLT)")
                     }
 
                     row(
-                        brightWhite(r.modelName),
+                        brightWhite(modelNameShort),
                         ameFormatted,
                         brierStr,
                         logLossStr,
                         rocAucStr,
                         boundErrFormatted,
                         brightMagenta(pScoreFormatted),
-                        statusColored
+                        statusFormatted
                     )
                 }
             }
