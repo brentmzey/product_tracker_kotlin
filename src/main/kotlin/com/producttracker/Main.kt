@@ -283,65 +283,61 @@ private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
 }
 
 private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.model.MasterDecisionMatrixResult) {
-    println("\n$BRIGHT_GREEN           🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX$RESET")
-    println("$BRIGHT_GREEN┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓$RESET")
-    println("$BRIGHT_GREEN┃ $BRIGHT_YELLOW%-20s$BRIGHT_GREEN ┃ $GREEN%-11s$BRIGHT_GREEN ┃ $BRIGHT_CYAN%9s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%9s$BRIGHT_GREEN ┃ $BRIGHT_GREEN%11s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%-38s$BRIGHT_GREEN ┃$RESET".format(
-        "Model Estimator", "Elasticity η", "p-value", "Model Fit R²", "P-Score (%)", "Decision Status & Rationale"
+    println("\n$BRIGHT_GREEN                                                           🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX$RESET")
+    println("$BRIGHT_GREEN┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓$RESET")
+    println("$BRIGHT_GREEN┃ $BRIGHT_YELLOW%-21s$BRIGHT_GREEN ┃ $GREEN%20s$BRIGHT_GREEN ┃ $BRIGHT_CYAN%7s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%14s$BRIGHT_GREEN ┃ $BRIGHT_GREEN%11s$BRIGHT_GREEN ┃ $BRIGHT_WHITE%-150s$BRIGHT_GREEN ┃$RESET".format(
+        "Model Estimator", "Price Elasticity (η)", "p-value", "Model Fit (R²)", "P-Score (%)", "Decision Status & Rationale"
     ))
-    println("$BRIGHT_GREEN┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩$RESET")
+    println("$BRIGHT_GREEN┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩$RESET")
 
     for (row in matrix.continuousModels) {
-        val nameTrunc = if (row.modelName.length > 20) row.modelName.take(19) + "…" else row.modelName
         val statusText = "${row.decisionStatus} — ${row.rationale}"
-        val statusTrunc = if (statusText.length > 38) statusText.take(37) + "…" else statusText
         val pScoreFormatted = "%10.1f%%".format(row.pScorePercent)
-        println("$BRIGHT_GREEN│ $BRIGHT_YELLOW%-20s$BRIGHT_GREEN │ %7.4f*** │ %9.4f │ %9.4f │ $BRIGHT_GREEN%11s$BRIGHT_GREEN │ $BRIGHT_WHITE%-38s$BRIGHT_GREEN │$RESET".format(
-            nameTrunc, row.coefOrAme, row.pValue, row.rSquaredOrPseudo, pScoreFormatted, statusTrunc
+        val elasFormatted = "%16.4f***".format(row.coefOrAme)
+        println("$BRIGHT_GREEN│ $BRIGHT_YELLOW%-21s$BRIGHT_GREEN │ %20s │ %7.4f │ %14.4f │ $BRIGHT_GREEN%11s$BRIGHT_GREEN │ $BRIGHT_WHITE%-150s$BRIGHT_GREEN │$RESET".format(
+            row.modelName, elasFormatted, row.pValue, row.rSquaredOrPseudo, pScoreFormatted, statusText
         ))
     }
-    println("$BRIGHT_GREEN└━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━┴━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘$RESET")
+    println("$BRIGHT_GREEN└━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━┴━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘$RESET")
 
-    println("\n$BRIGHT_MAGENTA              🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX$RESET")
-    println("$BRIGHT_MAGENTA┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓$RESET")
-    println("$BRIGHT_MAGENTA┃ $BRIGHT_WHITE%-20s$BRIGHT_MAGENTA ┃ $GREEN%-11s$BRIGHT_MAGENTA ┃ $BRIGHT_CYAN%9s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%9s$BRIGHT_MAGENTA ┃ $BRIGHT_GREEN%9s$BRIGHT_MAGENTA ┃ $BRIGHT_WHITE%9s$BRIGHT_MAGENTA ┃ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%-16s$BRIGHT_MAGENTA ┃$RESET".format(
+    println("\n$BRIGHT_MAGENTA                                                   🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX$RESET")
+    println("$BRIGHT_MAGENTA┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓$RESET")
+    println("$BRIGHT_MAGENTA┃ $BRIGHT_WHITE%-30s$BRIGHT_MAGENTA ┃ $GREEN%10s$BRIGHT_MAGENTA ┃ $BRIGHT_CYAN%11s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%8s$BRIGHT_MAGENTA ┃ $BRIGHT_GREEN%7s$BRIGHT_MAGENTA ┃ $BRIGHT_WHITE%12s$BRIGHT_MAGENTA ┃ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA ┃ $BRIGHT_YELLOW%-40s$BRIGHT_MAGENTA ┃$RESET".format(
         "Binary Model", "Price AME", "Brier Score", "Log-Loss", "ROC-AUC", "Boundary Err", "P-Score (%)", "Decision Status"
     ))
-    println("$BRIGHT_MAGENTA┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩$RESET")
+    println("$BRIGHT_MAGENTA┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩$RESET")
 
     for (row in matrix.binaryModels) {
-        val nameTrunc = if (row.modelName.length > 20) row.modelName.take(19) + "…" else row.modelName
         val pScoreFormatted = "%10.1f%%".format(row.pScorePercent)
-        val boundErrFormatted = "%8.1f%%".format((row.boundaryViolationRate ?: 0.0) * 100)
-        val statusTrunc = if (row.decisionStatus.length > 16) row.decisionStatus.take(15) + "…" else row.decisionStatus
+        val boundErrFormatted = "%10.1f%%".format((row.boundaryViolationRate ?: 0.0) * 100)
+        val ameFormatted = "%6.4f***".format(row.coefOrAme)
 
-        println("$BRIGHT_MAGENTA│ $BRIGHT_WHITE%-20s$BRIGHT_MAGENTA │ %7.4f*** │ %9.4f │ %9.4f │ %9.4f │ %10s │ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA │ $BRIGHT_YELLOW%-16s$BRIGHT_MAGENTA │$RESET".format(
-            nameTrunc, row.coefOrAme, row.brierScore ?: 0.0, row.logLoss ?: 0.0, row.rocAuc ?: 0.0, boundErrFormatted, pScoreFormatted, statusTrunc
+        println("$BRIGHT_MAGENTA│ $BRIGHT_WHITE%-30s$BRIGHT_MAGENTA │ %10s │ %11.4f │ %8.4f │ %7.4f │ %12s │ $BRIGHT_MAGENTA%11s$BRIGHT_MAGENTA │ $BRIGHT_YELLOW%-40s$BRIGHT_MAGENTA │$RESET".format(
+            row.modelName, ameFormatted, row.brierScore ?: 0.0, row.logLoss ?: 0.0, row.rocAuc ?: 0.0, boundErrFormatted, pScoreFormatted, row.decisionStatus
         ))
     }
-    println("$BRIGHT_MAGENTA└━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━┴━━━━━━━━━━━┴━━━━━━━━━━━┴━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━┘$RESET")
+    println("$BRIGHT_MAGENTA└━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━┴━━━━━━━━━┴━━━━━━━━━━━━━━┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘$RESET")
 }
 
 private fun printProbabilisticDecisionPanel(matrix: com.producttracker.model.MasterDecisionMatrixResult) {
     println("""
-$BRIGHT_GREEN╭─── 🧠 PROBABILISTIC MODEL SELECTION & STATISTICAL DECISION MATRIX SUMMARY ───╮
-│ Optimal Continuous Model (Causal Policy): ${matrix.bestContinuousCausal} (P-Score: 96.5%)  │
-│   └─ Reason: Isolates true causal price variation using exogenous supply     │
-│ instruments (Stage 1 F=${String.format("%.1f", matrix.stage1FStat)} > 10, Hausman p < 0.001).                 │
-│ Optimal Continuous Model (Panel Within): ${matrix.bestContinuousPanel} (P-Score: 93.4%) │
-│   └─ Reason: Eliminates entity quality shocks α_i identically.               │
-│ Optimal Binary Choice Model (Risk Decision): ${matrix.bestBinaryModel} (P-Score: 81.9%)                                                                   │
-│   └─ Reason: Top ROC-AUC (0.8441), lowest Brier score (0.1613), 0% boundary  │
-│ violations.                                                                  │
-╰──────────────────────────────────────────────────────────────────────────────╯$RESET
+$BRIGHT_GREEN╭──────────────────────────────────────────────────────────────────────────────────────────────────── 🧠 PROBABILISTIC MODEL SELECTION & STATISTICAL DECISION MATRIX SUMMARY ────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Optimal Continuous Model (Causal Policy): ${matrix.bestContinuousCausal} (P-Score: 96.5%)                                                                                                                                                                                                    │
+│   └─ Reason: Isolates true causal price variation using exogenous supply instruments (Stage 1 F=${String.format("%.1f", matrix.stage1FStat)} > 10, Hausman p < 0.001).                                                                                                                                          │
+│ Optimal Continuous Model (Panel Within): ${matrix.bestContinuousPanel} (P-Score: 93.4%)                                                                                                                                                                                                   │
+│   └─ Reason: Eliminates entity quality shocks α_i identically.                                                                                                                                                                                                                 │
+│ Optimal Binary Choice Model (Risk Decision): ${matrix.bestBinaryModel} (P-Score: 81.9%)                                                                                                                                                                                                │
+│   └─ Reason: Top ROC-AUC (0.8441), lowest Brier score (0.1613), 0% boundary violations.                                                                                                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
     """.trimIndent())
 }
 
 private fun printChartsSavedPanel(plotsDir: String, numCharts: Int) {
     println("""
-$BRIGHT_GREEN╭────────────────────────────── 🎨 Charts Saved ───────────────────────────────╮
-│ Saved $numCharts high-resolution XChart PNG charts to local directory:               │
-│ $plotsDir                                                                         │
-╰──────────────────────────────────────────────────────────────────────────────╯$RESET
+$BRIGHT_GREEN╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 🎨 Charts Saved ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Saved $numCharts high-resolution XChart PNG charts to local directory:                                                                                                                                                                                                                 │
+│ $plotsDir                                                                                                                                                                                                                                                                      │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯$RESET
     """.trimIndent())
 }
 

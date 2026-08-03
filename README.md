@@ -15,7 +15,33 @@ A high-performance **Kotlin / JVM Companion Project** matching all statistics, p
 Run this single command to pull the latest code, build an executable Fat JAR with all dependencies, and run:
 
 ```bash
-git pull origin main && gradle build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+git pull origin main && ./gradlew build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+```
+
+---
+
+## 🚀 Quickstart & Mirror Run Instructions
+
+### **1. Primary Run (Kotlin / JVM App)**
+Run from this project directory (`/Users/brentzey/personal/product_tracker_kotlin`):
+
+```bash
+# Option A: Gradle run (Recommended for Dev)
+./gradlew run
+
+# Option B: Build & run Executable Fat JAR
+./gradlew build && java -jar build/libs/product_tracker_kotlin-1.0.0.jar
+```
+
+### **2. Mirror Run (Python Companion App)**
+Run from the sibling repository directory (`/Users/brentzey/personal/product_tracker_app`):
+
+```bash
+# Option A: Using uv (Recommended)
+uv sync && PYTHONUNBUFFERED=1 uv run python -u product_track.py
+
+# Option B: Standard Python execution
+python product_track.py
 ```
 
 ### **Development Mode (Gradle)**
