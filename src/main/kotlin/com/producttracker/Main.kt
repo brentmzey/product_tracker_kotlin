@@ -18,7 +18,7 @@ import kotlin.math.sqrt
 
 private val logger = LoggerFactory.getLogger("com.producttracker.Main")
 private val terminal = Terminal(
-    width = 140,
+    width = 160,
     ansiLevel = AnsiLevel.TRUECOLOR
 )
 
@@ -166,12 +166,15 @@ private fun printHeaderBanner() {
     )
 }
 
-private fun printCenteredTitle(text: String, padSpaces: Int = 24) {
-    terminal.println(" ".repeat(padSpaces) + text)
+private fun printCenteredTitle(text: String) {
+    terminal.println()
+    val clean = text.replace(Regex("\u001B\\[[;\\d]*m"), "")
+    val pad = ((terminal.info.width - clean.length) / 2).coerceAtLeast(0)
+    terminal.println(" ".repeat(pad) + text)
 }
 
 private fun printDescriptiveStatsTable(statsRows: List<DescriptiveStatRow>) {
-    printCenteredTitle(magenta(bold("📊 DESCRIPTIVE STATISTICS (WITH UNITS OF MEASURE)")), 24)
+    printCenteredTitle(magenta(bold("📊 DESCRIPTIVE STATISTICS (WITH UNITS OF MEASURE)")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -217,7 +220,7 @@ private fun printContinuousDemandBenchmarkTable(
     re: com.producttracker.model.RegressionResult,
     iv: com.producttracker.model.RegressionResult
 ) {
-    printCenteredTitle(cyan(bold("📈 MASTER DEMAND ELASTICITY BENCHMARK (CONTINUOUS DEMAND)")), 31)
+    printCenteredTitle(cyan(bold("📈 MASTER DEMAND ELASTICITY BENCHMARK (CONTINUOUS DEMAND)")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -265,7 +268,7 @@ private fun printBinaryChoiceBenchmarkTable(
     logit: com.producttracker.model.RegressionResult,
     probit: com.producttracker.model.RegressionResult
 ) {
-    printCenteredTitle(yellow(bold("🎯 BINARY CHOICE MODEL BENCHMARK (LPM vs LOGIT vs PROBIT)")), 16)
+    printCenteredTitle(yellow(bold("🎯 BINARY CHOICE MODEL BENCHMARK (LPM vs LOGIT vs PROBIT)")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -346,7 +349,7 @@ private fun printMathDerivationsPanelBinary() {
 }
 
 private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
-    printCenteredTitle(yellow(bold("🧮 CENTRAL LIMIT THEOREM (CLT) CONVERGENCE SIMULATION")), 22)
+    printCenteredTitle(yellow(bold("🧮 CENTRAL LIMIT THEOREM (CLT) CONVERGENCE SIMULATION")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -377,7 +380,7 @@ private fun printCltSimulationTable(cltSim: Map<Int, DoubleArray>) {
 }
 
 private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.model.MasterDecisionMatrixResult) {
-    printCenteredTitle(yellow(bold("🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX")), 65)
+    printCenteredTitle(yellow(bold("🏆 CONTINUOUS MODEL SELECTION & STATISTICAL DECISION MATRIX")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
@@ -418,14 +421,14 @@ private fun printModelSelectionDecisionMatrixTable(matrix: com.producttracker.mo
                         pValStr,
                         rSqStr,
                         green(pScoreFormatted),
-                        "${r.decisionStatus} — $shortRationale"
+                        "${r.decisionStatus}\n└─ $shortRationale"
                     )
                 }
             }
         }
     )
 
-    printCenteredTitle(white(bold("🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX")), 51)
+    printCenteredTitle(white(bold("🎯 BINARY CHOICE PROBABILISTIC MODEL DECISION MATRIX")))
     terminal.print(
         table {
             borderType = BorderType.HEAVY
